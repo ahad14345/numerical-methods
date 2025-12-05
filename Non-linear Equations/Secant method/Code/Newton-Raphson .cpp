@@ -41,25 +41,24 @@ for(int i=0;i<n;i++){if(coeffs[i] !=0){
             }else{outFile<<abs(coeffs[i]*(n-i))<<"x^"<<n-i-1;}}}
     outFile<<"\n";}
 
-double newtonraphson(double x,double e,int maxiter,const vector<double>& coeffs,ofstream& outFile)
-{
-    int iter=0;
-    while(iter<maxiter)
-    {
-        double fx =f(x,coeffs),dfx =deriv(x,coeffs);
+double secant(double x0, double x1, double e, int maxiter,const vector<double>& coeffs, ofstream& outFile)
+{ double f0 = f(x0, coeffs),f1 = f(x1, coeffs);
 
-        if (dfx==0){
-            outFile<<"Derivative became zero. Stopping."<<"\n";
-            break;}
+    for(int iter=1;iter<=maxiter;iter++)
+    {if(fabs(f1-f0)< 1e-12)
+        {outFile<<"Denominator became zero. Stopping.\n";
+            return x1;}
+        double x2 =x1- f1*((x1-x0)/(f1-f0)),f2=f(x2,coeffs);
+        outFile<<"Iteration "<<iter<<": x = "<<fixed<<setprecision(6)<<x2<<", f(x) = "<<f2<<"\n";
 
-        double h = fx/dfx,new_x =x-h;
-
-        outFile<<"Iteration "<<(iter+1)<<": x = "<<fixed<<setprecision(6)<<new_x<<", f(x) = "<<fx<<"\n";
-        if(abs(new_x-x)<e){return new_x;}
-        x =new_x;
-        iter++;}
-
-    return x;
+        if(fabs(x2-x1)<e)
+            return x2;
+        x0 = x1;
+        f0 = f1;
+        x1 = x2;
+        f1 = f2;
+    }
+    return x1;
 }
 
 
