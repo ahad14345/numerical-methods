@@ -1,15 +1,10 @@
-Searching for the root in the interval [2, 3]
-Iteration 1: Midpoint = 2.5, f(midpoint) = -0.375
-Iteration 2: Midpoint = 2.75, f(midpoint) = -0.328125
-Iteration 3: Midpoint = 2.875, f(midpoint) = -0.205078
-Iteration 4: Midpoint = 2.9375, f(midpoint) = -0.113525
-Iteration 5: Midpoint = 2.96875, f(midpoint) = -0.0596008
-Iteration 6: Midpoint = 2.98438, f(midpoint) = -0.0305214
-Iteration 7: Midpoint = 2.99219, f(midpoint) = -0.0154424
-Iteration 8: Midpoint = 2.99609, f(midpoint) = -0.00776678
-Iteration 9: Midpoint = 2.99805, f(midpoint) = -0.00389481
-Iteration 10: Midpoint = 2.99902, f(midpoint) = -0.00195026
-Iteration 11: Midpoint = 2.99951, f(midpoint) = -0.000975847
-Iteration 12: Midpoint = 2.99976, f(midpoint) = -0.000488102
-Iteration 13: Midpoint = 2.99988, f(midpoint) = -0.000244096
-The root is approximately=2.99988 with f(midpoint) = -0.000244096
+Searching for the root in the interval [1, 2]
+Iteration 1: x = 1.33333, f(x) = -0.962963
+Iteration 2: x = 1.46269, f(x) = -0.333339
+Iteration 3: x = 1.50402, f(x) = -0.101818
+Iteration 4: x = 1.51633, f(x) = -0.0298948
+Iteration 5: x = 1.51992, f(x) = -0.00867507
+Iteration 6: x = 1.52096, f(x) = -0.00250881
+Iteration 7: x = 1.52126, f(x) = -0.000724823
+
+The root is approximately: 1.52126 with f(x) = -0.000724823

@@ -1,53 +1,54 @@
-#include <bits/stdc++.h>
-
+#include <iostream>
+#include <fstream>
+#include <cmath>
 using namespace std;
 
-double func(double x, double a, double b, double c, double d) {
+double f(double x, double a, double b, double c, double d) {
     return a*x*x*x + b*x*x + c*x + d;
 }
 
 int main() {
-    double a,b,c,d,x1,x2,e,midpoint,func_at_mid,func_at_x1,func_at_x2,root,func_at_root;
-    int max_iterations, iteration_cnt = 0;
+    double a,b,c,d,e,xl,xu,xr;
+    int cnt;
 
-    ifstream input_file("input.txt");ofstream output_file("output.txt");
+    ifstream in_file("input.txt");
+    ofstream out_file("output.txt");
 
-    if (!input_file.is_open()) {
-        cerr << "Error opening input file!"<<"\n";
+    if(!in_file.is_open()){
+        cerr<< "Error opening input file!"<<"\n";
         return -1;}
 
-    input_file>>a>>b>>c>>d;
-    input_file>>x1>>x2>>e>>max_iterations;
+    in_file>>a>>b>>c>>d;
+    in_file>>xl>>xu>>e>>cnt;
+    in_file.close();
 
-    func_at_x1 = func(x1,a,b,c,d);
-    func_at_x2 = func(x2,a,b,c,d);
+    xr=xl;
+    double fxl =f(xl,a,b,c,d), fxu = f(xu,a,b,c,d),fxr;
 
-    if (func_at_x1*func_at_x2 >0) {
-        output_file<<"No root found in the interval ["<<x1<< ", "<<x2<<"]"<<"\n";
-        return -1;
+    if(fxl*fxu>0) {
+        out_file<<"No root found in the interval [" <<xl<<", "<<xu<< "]"<<"\n";
+        out_file.close();
+        return 0;}
+    out_file<<"Searching for the root in the interval [" <<xl<<", "<<xu<< "]\n";
+    int iter = 1;
+    while (iter<=cnt){
+        xr = ((xl*fxu)-(xu*fxl))/(fxu-fxl);
+        fxr = f(xr,a,b,c,d);
+
+        out_file<<"Iteration "<<iter<<": x = " << xr << ", f(x) = "<<fxr<<"\n";
+
+        if (fabs(fxr)<e){break;}
+
+        if (fxl*fxr<0){
+            xu = xr;
+            fxu = fxr;
+        }else{
+            xl = xr;
+            fxl = fxr;}
+        iter++;
     }
+    out_file<<"\nThe root is approximately: "<<xr<<" with f(x) = "<<fxr<< "\n";
+    out_file.close();
 
-    output_file << "Searching for the root in the interval ["<<x1<<", "<<x2<<"]"<<"\n";
-
-    while ((x2-x1)/2.0>e && iteration_cnt<max_iterations){
-       root=(x1*func_at_x2-x2*func_at_x1)/(func_at_x2-func_at_x1);
-func_at_root=func(root,a,b,c,d);
-
-
-        output_file<< "Iteration "<<iteration_cnt+1<<": Midpoint = "<<midpoint<<", f(midpoint) = "<<func_at_mid<<"\n";
-
-        if (func_at_mid==0.0){break;}
-       if(func_at_x1*func_at_root<0){
-    x2=root;
-    func_at_x2=func_at_root;
-}else{x1 = root;
-    func_at_x1=func_at_root;}
-
-    if (iteration_cnt == max_iterations) {
-        output_file<<"Maximum iterations reached. Approximate root is "<<midpoint<<"\n";
-    } else {
-        output_file<<"The root is approximately="<<midpoint<<" with f(midpoint) = "<< func(midpoint,a,b,c,d)<<"\n";
-    }
-    input_file.close();output_file.close();
     return 0;
 }
