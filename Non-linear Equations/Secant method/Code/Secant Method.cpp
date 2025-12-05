@@ -66,7 +66,7 @@ double secant(double x0, double x1, double e,int maxiter,const vector<double>& c
 int main(){
     ifstream inFile("input.txt");ofstream outFile("output.txt");
 
-    if (!inFile){
+    if(!inFile){
         cerr<<"Error opening input file!"<<"\n";
         return -1;}
 
