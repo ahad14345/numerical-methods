@@ -1,54 +1,90 @@
 #include <bits/stdc++.h>
-
 using namespace std;
 
-double func(double x, double a, double b, double c, double d) {
-    return a*x*x*x + b*x*x + c*x + d;
+double f(double x,const vector<double>& coeffs){
+    double rslt=0;
+    int n=coeffs.size()-1;
+    for(int i=0;i<=n;i++){rslt +=coeffs[i]*pow(x,n-i);}
+    return rslt;}
+
+double deriv(double x,const vector<double>& coeffs){
+    double rslt=0;
+    int n=coeffs.size()-1;
+    for(int i=0;i<n;i++){rslt+=coeffs[i]*(n-i)*pow(x,n-i-1);}
+    return rslt;
 }
 
-int main() {
-    double a,b,c,d,x1,x2,e,midpoint,func_at_mid,func_at_x1,func_at_x2;
-    int max_iterations, iteration_cnt = 0;
+void printeq(const vector<double>& coeffs,ofstream& outFile) {
+    int n=coeffs.size()-1;
+    bool flg=true;
+for(int i=0;i<=n;i++){if(coeffs[i]!=0){
+            if (!flg){outFile<<(coeffs[i] > 0 ? " + " : " - ");}
+            flg = false;
+            if(i==n){outFile<<abs(coeffs[i]);
+            }else if(i== n-1){
+                outFile<<abs(coeffs[i])<<"x";
+            }else{
+                outFile<<abs(coeffs[i])<<"x^"<<n-i;}}}
+                outFile<<" = 0"<<"\n";}
 
-    ifstream input_file("input.txt");ofstream output_file("output.txt");
+void printderiv(const vector<double>& coeffs, ofstream& outFile) {
+    int n =coeffs.size()-1;
+    bool flg = true;
+for(int i=0;i<n;i++){if(coeffs[i] !=0){
+            if (!flg){outFile<<(coeffs[i]*(n-i)>0 ? "+":"-");}
+            flg = false;
 
-    if (!input_file.is_open()) {
-        cerr << "Error opening input file!"<<"\n";
+            if(i== n-1){
+                outFile<<abs(coeffs[i]*(n-i));
+            }else if(i == n-2){
+                outFile<<abs(coeffs[i]*(n-i))<<"x";
+            }else{outFile<<abs(coeffs[i]*(n-i))<<"x^"<<n-i-1;}}}
+    outFile<<"\n";}
+
+double newtonraphson(double x,double e,int maxiter,const vector<double>& coeffs,ofstream& outFile)
+{
+    int iter=0;
+    while(iter<maxiter)
+    {
+        double fx =f(x,coeffs),dfx =deriv(x,coeffs);
+
+        if (dfx==0){
+            outFile<<"Derivative became zero. Stopping."<<"\n";
+            break;}
+
+        double h = fx/dfx,new_x =x-h;
+
+        outFile<<"Iteration "<<(iter+1)<<": x = "<<fixed<<setprecision(6)<<new_x<<", f(x) = "<<fx<<"\n";
+        if(abs(new_x-x)<e){return new_x;}
+        x =new_x;
+        iter++;}
+
+    return x;
+}
+
+
+int main(){
+    ifstream inFile("input.txt");ofstream outFile("output.txt");
+
+    if (!inFile){
+        cerr <<"Error opening input file!" << "\n";
         return -1;}
 
-    input_file>>a>>b>>c>>d;
-    input_file>>x1>>x2>>e>>max_iterations;
+        int degree;inFile>>degree;
 
-    func_at_x1 = func(x1,a,b,c,d);
-    func_at_x2 = func(x2,a,b,c,d);
+    vector<double> coeffs(degree + 1);
+    for(int i=0;i<=degree;i++){inFile>>coeffs[i];}
 
-    if (func_at_x1*func_at_x2 >0) {
-        output_file<<"No root found in the interval ["<<x1<< ", "<<x2<<"]"<<"\n";
-        return -1;
-    }
-
-    output_file << "Searching for the root in the interval ["<<x1<<", "<<x2<<"]"<<"\n";
-
-    while ((x2-x1)/2.0>e && iteration_cnt<max_iterations){
-        midpoint=(x1+x2)/2.0;
-        func_at_mid = func(midpoint,a,b,c,d);
-
-        output_file << "Iteration "<<iteration_cnt+1<<": Midpoint = "<<midpoint<<", f(midpoint) = "<<func_at_mid<<"\n";
-
-        if (func_at_mid==0.0){break;}
-        if (func_at_x1*func_at_mid<0){
-            x2 = midpoint;
-            func_at_x2=func_at_mid;
-        } else {x1=midpoint;
-            func_at_x1=func_at_mid;}
-            iteration_cnt++;
-    }
-
-    if (iteration_cnt == max_iterations) {
-        output_file<<"Maximum iterations reached. Approximate root is "<<midpoint<<"\n";
-    } else {
-        output_file<<"The root is approximately="<<midpoint<<" with f(midpoint) = "<< func(midpoint,a,b,c,d)<<"\n";
-    }
-    input_file.close();output_file.close();
+    outFile << "The equation is: ";
+    printeq(coeffs, outFile);
+    outFile << "The derivative is: ";
+    printderiv(coeffs, outFile);
+    double guess,e;
+    int maxiter;
+    inFile >> guess >> e >> maxiter;
+    double root = newtonraphson(guess,e,maxiter,coeffs,outFile);
+    outFile<<"\nThe root is: "<<setprecision(6)<<root<<"\n";
+    inFile.close();
+    outFile.close();
     return 0;
 }
