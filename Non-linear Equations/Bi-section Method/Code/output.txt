@@ -1,0 +1,19 @@
+Polynomial: 1x^4 +0x^3 -5x^2 +0x +4 
+Search interval: [-3.16228, 3.16228]
+
+Bracket found: [-2.16228, -1.66228]
+Root: -2.00002
+Iterations: 13
+
+Bracket found: [-1.16228, -0.662278]
+Root: -0.999985
+Iterations: 12
+
+Bracket found: [0.837722, 1.33772]
+Root: 1.00001
+Iterations: 12
+
+Bracket found: [1.83772, 2.33772]
+Root: 1.99998
+Iterations: 13
+
