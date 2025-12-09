@@ -1,0 +1,18 @@
+No. of degree of the equation: Coefficients of the equation: 1x^4 -5x^2 +4 = 0
+Derivative: 4x^3 -10x = 0
+
+Bracket found: [-2.4, -1.95]
+Root: -2
+Iteration number: 3
+
+Bracket found: [-1.05, -0.6]
+Root: -1
+Iteration number: 1
+
+Bracket found: [0.75, 1.2]
+Root: 0.999986
+Iteration number: 1
+
+Bracket found: [1.65, 2.1]
+Root: 2.00003
+Iteration number: 5
