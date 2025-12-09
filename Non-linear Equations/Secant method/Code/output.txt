@@ -1,10 +1,7 @@
-The equation is: 1x^2 - 5x + 6 = 0
-The derivative is: 2x-5
-Iteration 1: x = 1.800000, f(x) = 0.240000
-Iteration 2: x = 1.941176, f(x) = 0.062284
-Iteration 3: x = 1.990654, f(x) = 0.009433
-Iteration 4: x = 1.999485, f(x) = 0.000515
-Iteration 5: x = 1.999995, f(x) = 0.000005
-Iteration 6: x = 2.000000, f(x) = 0.000000
-
-The root is: 2.000000
+Number of degrees: 3
+Coefficients: 1 -6 11 -6 
+Equation: 1x^3 -6x^2 + 11x^1 -6x^0 
+Search range: [-2.83333, 2.83333]
+Initial interval: 0.766667 1.21667
+Root: 1.00163
+Iterations: 3
