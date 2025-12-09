@@ -1,9 +1,0 @@
-The equation is: 1x^2 - 5x + 6 = 0
-The derivative is: 2x-5
-Iteration 1: x = 1.666667, f(x) = 2.000000
-Iteration 2: x = 1.933333, f(x) = 0.444444
-Iteration 3: x = 1.996078, f(x) = 0.071111
-Iteration 4: x = 1.999985, f(x) = 0.003937
-Iteration 5: x = 2.000000, f(x) = 0.000015
-
-The root is: 2.000000
