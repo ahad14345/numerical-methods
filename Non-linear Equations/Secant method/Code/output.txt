@@ -1,7 +1,0 @@
-Number of degrees: 3
-Coefficients: 1 -6 11 -6 
-Equation: 1x^3 -6x^2 + 11x^1 -6x^0 
-Search range: [-2.83333, 2.83333]
-Initial interval: 0.766667 1.21667
-Root: 1.00163
-Iterations: 3
