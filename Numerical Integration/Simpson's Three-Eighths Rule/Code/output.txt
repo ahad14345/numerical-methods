@@ -1,0 +1,6 @@
+Lower limit a: 0
+Upper limit b: 4.5
+Number of intervals: 9
+Step size h: 0.5
+
+Integration of the function: 6.329
