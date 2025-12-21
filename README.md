@@ -34,7 +34,7 @@ In this repository, different techniques are implemented to solve linear equatio
   - Code
   - Input
   - Output
-  ### 2.Non-Linear Equations
+### 2.Non-Linear Equations
 - **Bisection Method**
   - Theory
   - Code
@@ -58,5 +58,24 @@ In this repository, different techniques are implemented to solve linear equatio
   - Code
   - Input
   - Output
+### 3. Interpolation and Approximation
+- **Newton Forward Interpolation**
+  - Theory
+  - Code
+  - Input
+  - Output
+
+- **Newton Backward Interpolation**
+  - Theory
+  - Code
+  - Input
+  - Output
+- **Regression**
+  -Exponential
+    - Theory
+    - Code
+    - Input
+    - Output
+
 
 
