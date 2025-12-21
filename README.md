@@ -10,6 +10,7 @@ This project is a collection of basic numerical methods written in C++ for the N
 In this repository, different techniques are implemented to solve linear equations, non-linear equations, interpolation, numerical differentiation, numerical integration, curve fitting, and ordinary differential equations. Each method includes its theory, source code, and sample input and output to help understand how it works.
 
 ## Table of Contents
+
 ### 1. Linear Equations
 - **Gauss Elimination**
   - Theory
@@ -34,6 +35,7 @@ In this repository, different techniques are implemented to solve linear equatio
   - Code
   - Input
   - Output
+---    
 ### 2.Non-Linear Equations
 - **Bisection Method**
   - Theory
@@ -58,6 +60,7 @@ In this repository, different techniques are implemented to solve linear equatio
   - Code
   - Input
   - Output
+---    
 ### 3. Interpolation and Approximation
 - **Newton Forward Interpolation**
   - Theory
@@ -70,12 +73,59 @@ In this repository, different techniques are implemented to solve linear equatio
   - Code
   - Input
   - Output
-- **Regression**
-  -Exponential
-    - Theory
-    - Code
-    - Input
-    - Output
 
+- **Exponential Regression**
+  - Theory
+  - Code
+  - Input
+  - Output
+
+- **Linear Regression**
+  - Theory
+  - Code
+  - Input
+  - Output
+
+- **Polynomial Regression**
+  - Theory
+  - Code
+  - Input
+  - Output 
+---    
+### 4. Numerical Differentiation
+- **Newton Forward Difference**
+  - Theory
+  - Code
+  - Input
+  - Output
+
+- **Newton Backward Difference**
+  - Theory
+  - Code
+  - Input
+  - Output
+---
+### 5. Numerical Integration
+- **Simpson’s 1/3 Rule**
+  - Theory
+  - Code
+  - Input
+  - Output
+
+- **Simpson’s 3/8 Rule**
+  - Theory
+  - Code
+  - Input
+  - Output
+---
+### 6. Ordinary Differential Equations
+
+- **Runge-Kutta Method (4th Order)**
+  - Theory
+  - Code
+  - Input
+  - Output
+
+---
 
 
