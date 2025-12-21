@@ -1,0 +1,4 @@
+a = 2.2
+b = 0.6
+Linear equation: y = 2.2 + 0.6x
+y(6) = 5.8
