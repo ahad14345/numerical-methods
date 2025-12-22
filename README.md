@@ -12,7 +12,7 @@ In this repository, different techniques are implemented to solve linear equatio
 ## Table of Contents
 
 ### 1. [Linear Equations](#linear-equations)
-- **Gauss Elimination**
+- [**Gauss Elimination**](https://github.com/ahad14345/numerical-methods#theory)
   - Theory
   - Code
   - Input
