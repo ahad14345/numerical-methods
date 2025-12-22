@@ -299,6 +299,45 @@ int main()
 
     return 0;
 }
+```
+## Sample Input:
+
+```cpp
+3
+2 1 -1 8
+-3 -1 2 -11
+-2 1 2 -3
+n
+```
+
+## Sample Output:
+
+```cpp
+After step 1:
+
+2 1 -1 8 
+0 0.5 0.5 1 
+-2 1 2 -3 
+
+After step 2:
+
+2 1 -1 8 
+0 0.5 0.5 1 
+0 2 1 5 
+
+After step 3:
+
+2 1 -1 8 
+0 0.5 0.5 1 
+0 0 -1 1 
+
+The system has unique solutions
+
+x1 = 2
+x2 = 3
+x3 = -1
+```
+---
 
 
 
