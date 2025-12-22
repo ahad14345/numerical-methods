@@ -138,9 +138,7 @@ The Gauss–Jordan method is a simple and systematic technique used to solve a s
 
 A system of linear equations can be written as:
 
-\[
 AX = B
-\]
 
 Where:
 - \(A\) is the coefficient matrix  
@@ -165,35 +163,26 @@ After this transformation, the solution is obtained directly from the last colum
    \[a[i][j], \quad i = 1 \dots n,\; j = 1 \dots n+1\]
 
 2. **Select the pivot element**  
-   For each row \(i\), choose the diagonal element:
-   \[
+   For each row i, choose the diagonal element:
    pivot = a[i][i]
-   \]
 
 3. **Make the pivot equal to 1**  
    Divide the entire row by the pivot element:
-   \[
-   a[i][j] = \frac{a[i][j]}{pivot}, \quad \forall j
-   \]
+   a[i][j] = \frac{a[i][j]}{pivot}, for all j
 
 4. **Make other elements of the column zero**  
-   For all rows \(k \ne i\):
-   \[
+   For all rows:
    a[k][j] = a[k][j] - a[k][i] \times a[i][j]
-   \]
 
 5. **Repeat for all rows**  
    Continue steps 2 to 4 for \(i = 1 \dots n\) until the matrix becomes:
-   \[
    [I|X]
-   \]
    where \(I\) is the identity matrix.
 
 6. **Obtain the solution**  
    The values of the variables are:
-   \[
-   x_i = a[i][n+1]
-   \]
+
+   x[i] = a[i][n+1]
 
 ---
 
