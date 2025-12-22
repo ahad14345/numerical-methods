@@ -1217,3 +1217,92 @@ Integration of the function: 6.329
 ## [Back to Top](#about-this-project)
 
 ---
+
+# Solution of Differential Equations
+
+---
+
+## Runge-Kutta method
+
+### Theory
+
+The 4th Order Runge-Kutta (RK4) method solves ODEs of the form dy/dx = f(x, y), y(x0) = y0. The next value yn+1 is approximated using:
+
+h = step size  
+k1 = h _ f(xn, yn)  
+k2 = h _ f(xn + h/2, yn + k1/2)  
+k3 = h _ f(xn + h/2, yn + k2/2)  
+k4 = h _ f(xn + h, yn + k3)  
+yn+1 = yn + (1/6)*(k1 + 2*k2 + 2\*k3 + k4)  
+xn+1 = xn + h
+
+Compute k1, k2, k3, k4, then yn+1. Repeat until x = xn. This gives an accurate approximation of y at each step.
+
+### Algorithm / Steps (with Mathematical Expressions)
+
+1. Input the initial values x0, y0, the final value xn, and step size h
+2. Compute k1, k2, k3, k4 using the formulas above
+3. Compute yn+1 = yn + (1/6)*(k1 + 2*k2 + 2\*k3 + k4)
+4. Update xn+1 = xn + h
+5. Repeat the process until x = xn
+6. Obtain the approximate solution for y at each step
+
+---
+
+## Code:
+
+```cpp
+#include <bits/stdc++.h>
+using namespace std;
+
+double f(double x, double y)
+{
+    return (2*x + 1);
+}
+
+int main()
+{
+    freopen("input.txt", "r", stdin);
+    freopen("output.txt", "w", stdout);
+
+    double x0, y0, xn, yn, h;
+    cin >> x0 >> y0;
+    cin >> xn;
+    cin >> h;
+
+    double interval = round((xn - x0) / h);
+
+    double k1, k2, k3, k4, k;
+    for (int i = 1; i <= interval; i++)
+    {
+        k1 = h * f(x0, y0);
+        k2 = h * f(x0 + h/2, y0 + k1/2);
+        k3 = h * f(x0 + h/2, y0 + k2/2);
+        k4 = h * f(x0 + h, y0 + k3);
+
+        k = (k1 + 2*k2 + 2*k3 + k4)/6;
+
+        yn = y0 + k;
+        x0 = x0 + h;
+        y0 = yn;
+    }
+
+    cout << "f(" << xn << ") = " << yn << '\n';
+}
+```
+
+## Sample Input:
+
+```cpp
+0 1
+0.2
+0.1
+```
+
+## Sample Output:
+
+```cpp
+f(0.2) = 1.24
+```
+
+## [Back to Top](#about-this-project)
