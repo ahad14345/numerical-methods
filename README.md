@@ -371,7 +371,7 @@ The system has unique solutions
 
 Answer is: 2 3 -1 
 ```
-[Back to Top](#course-cse-2208-–-numerical-methods-lab)
+[Back to Top](#about-this-project)
 ---
 
 
