@@ -621,6 +621,192 @@ Answer is: 2 3 -1
 
 ---
 
+# Numerical Integration
+
+---
+
+## Simpson's One-Third Rule
+
+### Theory
+
+Simpson’s 1/3 Rule is a numerical integration method used to approximate the definite integral of a function. The integral of f(x) from a to b is approximated as:
+
+Integral = (h/3) _ [ (y0 + yn) + 4_(y1 + y3 + y5 + ...) + 2\*(y2 + y4 + y6 + ...) ]
+
+Where:
+
+y0, y1, ..., yn are the values of the function at equally spaced points
+
+h = (b - a) / n, and n must be even
+
+The process involves dividing the interval [a, b] into n equal subintervals. The integral is then computed by taking the weighted sum of the function values according to the formula above. This method combines parabolic approximations over pairs of intervals to provide higher accuracy than the trapezoidal rule.
+
+### Algorithm / Steps (with Mathematical Expressions)
+
+1. Input the function values and limits
+2. Compute step size h = (b - a) / n
+3. Compute the weighted sum according to the formula
+4. Obtain the approximate value of the integral
+
+---
+
+## Code:
+
+```cpp
+#include <bits/stdc++.h>
+#include <cmath>
+
+using namespace std;
+
+double f(double x)
+{
+    return (1/(1 + (x*x)));
+}
+
+int main()
+{
+    freopen("input.txt", "r", stdin);
+    freopen("output.txt", "w", stdout);
+
+    double a, b, interval, h, ans = 0;
+
+    cin >> a >> b >> interval;
+
+    h = (b - a) / interval;
+    ans = f(a) + f(b);
+
+    cout << "Lower limit a: " << a << '\n';
+    cout << "Upper limit b: " << b << '\n';
+    cout << "Number of intervals: " << interval << '\n';
+    cout << "Step size h: " << h << "\n\n";
+
+    for (int i = 1; i < interval; i++)
+    {
+        double x = a + (i * h);
+        if (i % 2 == 0)
+            ans += 2 * f(x);
+        else
+            ans += 4 * f(x);
+    }
+
+    ans = ans * h / 3;
+
+    cout << "Integration of the function: " << setprecision(5) << ans << '\n';
+}
+```
+
+## Sample Input:
+
+```cpp
+0 1 4
+```
+
+## Sample Output:
+
+```cpp
+Lower limit a: 0
+Upper limit b: 1
+Number of intervals: 4
+Step size h: 0.25
+
+Integration of the function: 0.78539
+```
+
+## [Back to Top](#about-this-project)
+
+---
+
+## Simpson's Three-Eighths Rule
+
+### Theory
+
+Simpson’s 3/8 Rule is a numerical integration method that approximates the integral of a function over an interval by fitting cubic polynomials through sets of four points. The integral of f(x) from a to b is approximated as:
+
+Integral = (3h/8) _ [ (y0 + yn) + 3(y1 + y2 + y4 + y5 + ...) + 2_(y3 + y6 + ...) ]
+
+Where:
+
+y0, y1, ..., yn are the values of the function at equally spaced points
+
+h = (b - a) / n, and n must be a multiple of 3
+
+The interval [a, b] is divided into n equal subintervals. The integral is computed by taking a weighted sum of function values, where multiples of 3 are multiplied by 2 and the remaining intermediate points are multiplied by 3. This method gives higher accuracy for functions that are not well-approximated by parabolas.
+
+### Algorithm / Steps (with Mathematical Expressions)
+
+1. Input the function values and limits
+2. Compute step size h = (b - a) / n
+3. Compute the weighted sum according to the formula
+4. Obtain the approximate value of the integral
+
+---
+
+## Code:
+
+```cpp
+#include <bits/stdc++.h>
+#include <cmath>
+
+using namespace std;
+
+double f(double x)
+{
+    return (pow(x, 0.5));
+}
+
+int main()
+{
+    freopen("input.txt", "r", stdin);
+    freopen("output.txt", "w", stdout);
+
+    double a, b, interval, h, ans = 0;
+
+    cin >> a >> b >> interval;
+
+    h = (b - a) / interval;
+    ans = f(a) + f(b);
+
+    cout << "Lower limit a: " << a << '\n';
+    cout << "Upper limit b: " << b << '\n';
+    cout << "Number of intervals: " << interval << '\n';
+    cout << "Step size h: " << h << "\n\n";
+
+    for (int i = 1; i < interval; i++)
+    {
+        double x = a + (i * h);
+        if (i % 3 == 0)
+            ans += 2 * f(x);
+        else
+            ans += 3 * f(x);
+    }
+
+    ans = ans * (3 * h) / 8;
+
+    cout << "Integration of the function: " << setprecision(5) << ans << '\n';
+}
+```
+
+## Sample Input:
+
+```cpp
+0 4.5 9
+```
+
+## Sample Output:
+
+```cpp
+Lower limit a: 0
+Upper limit b: 4.5
+Number of intervals: 9
+Step size h: 0.5
+
+Integration of the function: 6.329
+```
+
+## [Back to Top](#about-this-project)
+
+---
+
 # Curve Fitting
 
 ---
@@ -786,12 +972,12 @@ Prediction: Once A and B are known, the model can predict Y for any X.
    ΣX, Σln(Y), ΣX\*ln(Y), ΣX²
 
 4. Solve for coefficients
-   B = (nΣ(X\*ln(Y)) - ΣXΣln(Y)) / (nΣX² - (ΣX)²)
-   ln(A) = (Σln(Y) - BΣX) / n
+   B = (nΣ(X\*ln(Y)) - ΣXΣln(Y)) / (nΣX² - (ΣX)²),
+   ln(A) = (Σln(Y) - BΣX) / n,
    A = e^(ln(A))
 
-5. Obtain the solution
-   Display the regression equation: Y = A * e^(B*X)
+5. Obtain the solution and
+   display the regression equation: Y = A * e^(B*X)
 
 ---
 
