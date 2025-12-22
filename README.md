@@ -1034,6 +1034,272 @@ y(6) = 3.8
 
 ---
 
+# Numerical Differentiation
+
+---
+
+## Newton's Forward Difference
+
+### Theory
+
+Newton's Forward Difference Formula approximates the derivative of a function given tabulated data points. It is used when the point of interest is near the beginning of the dataset and the x values are equally spaced.
+
+Let x0, x1, ..., xn be the x values with step size h. Let x be the point of interest and u = (x - x0)/h.
+
+First derivative:
+
+f'(x) = (1/h) _ [ Δy0 + ((2u - 1)/2) _ Δ²y0 + ((3u² - 6u + 2)/6) \* Δ³y0 + ... ]
+
+Second derivative:
+
+f''(x) = (1/h²) _ [ Δ²y0 + (u - 1) _ Δ³y0 + ... ]
+
+### Algorithm / Steps (with Mathematical Expressions)
+
+1. Input n, x[], y[], and target x
+2. Construct forward difference table
+3. Compute h = x[1] - x[0], u = (x - x0)/h
+4. Apply formulas to calculate f'(x) and f''(x)
+5. Output difference table and derivatives
+
+---
+
+## Code:
+
+```cpp
+#include <bits/stdc++.h>
+using namespace std;
+
+double factorial(int n)
+{
+    double f = 1;
+    for (int i = 1; i <= n; i++)
+        f *= i;
+    return f;
+}
+
+int main()
+{
+    freopen("input.txt", "r", stdin);
+    freopen("output.txt", "w", stdout);
+
+    int n;
+    cout << "Num of data points:\n";
+    cin >> n;
+
+    vector<double> x(n), y(n);
+    cout << "Enter x values:\n";
+    for (double &v : x) cin >> v;
+
+    cout << "Enter y values:\n";
+    for (double &v : y) cin >> v;
+
+    double xp;
+    cout << "Enter the targeted value:\n";
+    cin >> xp;
+
+    vector<vector<double>> d(n, vector<double>(n, 0));
+
+    for (int i = 0; i < n; i++)
+        d[i][0] = y[i];
+
+    for (int col = 1; col < n; col++)
+        for (int row = 0; row < n - col; row++)
+            d[row][col] = d[row + 1][col - 1] - d[row][col - 1];
+
+    cout << "Forward difference table:\n";
+    for (int i = 0; i < n; i++)
+    {
+        for (int j = 0; j < n - i; j++)
+            cout << setw(8) << d[i][j] << " ";
+        cout << '\n';
+    }
+
+    double h = x[1] - x[0];
+    double u = (xp - x[0]) / h;
+
+    double firstDer =
+        d[0][1]
+        + (2 * u - 1) * d[0][2] / factorial(2)
+        + (3 * u * u - 6 * u + 2) * d[0][3] / factorial(3);
+
+    firstDer /= h;
+
+    double secondDer =
+        d[0][2]
+        + (u - 1) * d[0][3];
+
+    secondDer /= (h * h);
+
+    cout << "f'(x) = " << firstDer << '\n';
+    cout << "f''(x) = " << secondDer << '\n';
+
+    return 0;
+}
+
+```
+
+## Sample Input:
+
+```cpp
+5
+1 2 3 4 5
+1 8 27 64 125
+2
+```
+
+## Sample Output:
+
+```cpp
+Num of data points:
+Enter x values:
+Enter y values:
+Enter the targeted value:
+Forward difference table:
+       1        7       12        6        0
+       8       19       18        6
+      27       37       24
+      64       61
+     125
+f'(x) = 12
+f''(x) = 12
+```
+
+## [Back to Top](#about-this-project)
+
+---
+
+## Newton's Backward Difference
+
+### Theory
+
+Newton's Backward Difference Formula approximates the derivative of a function when the point of interest is near the end of the dataset and the x values are equally spaced.
+
+Let x0, x1, ..., xn be the x values with step size h. Let x be the point of interest and u = (x - xn)/h.
+
+First derivative:
+
+f'(x) = (1/h) _ [ ∇yn + ((2u + 1)/2) _ ∇²yn + ((3u² + 6u + 2)/6) \* ∇³yn + ... ]
+
+Second derivative:
+
+f''(x) = (1/h²) _ [ ∇²yn + (u + 1) _ ∇³yn + ... ]
+
+### Algorithm / Steps (with Mathematical Expressions)
+
+1. Input n, x[], y[], and target x
+2. Construct backward difference table
+3. Compute h = x[1] - x[0], u = (x - xn)/h
+4. Apply formulas to calculate f'(x) and f''(x)
+5. Output difference table and derivatives
+
+---
+
+## Code:
+
+```cpp
+#include <bits/stdc++.h>
+using namespace std;
+
+double factorial(int n)
+{
+    double f = 1;
+    for (int i = 1; i <= n; i++)
+        f *= i;
+    return f;
+}
+
+int main()
+{
+    freopen("input.txt", "r", stdin);
+    freopen("output.txt", "w", stdout);
+
+    int n;
+    cout << "Num of data points:\n";
+    cin >> n;
+
+    vector<double> x(n), y(n);
+    cout << "Enter x values:\n";
+    for (int i = 0; i < n; i++) cin >> x[i];
+
+    cout << "Enter y values:\n";
+    for (int i = 0; i < n; i++) cin >> y[i];
+
+    double xp;
+    cout << "Enter the targeted value:\n";
+    cin >> xp;
+
+    vector<vector<double>> diff(n, vector<double>(n, 0));
+
+    for (int i = 0; i < n; i++)
+        diff[i][0] = y[i];
+
+    for (int j = 1; j < n; j++)
+        for (int i = n - 1; i >= j; i--)
+            diff[i][j] = diff[i][j - 1] - diff[i - 1][j - 1];
+
+    cout << "Backward difference table:\n";
+    for (int i = 0; i < n; i++)
+    {
+        for (int j = 0; j <= i; j++)
+            cout << setw(8) << diff[i][j] << " ";
+        cout << '\n';
+    }
+
+    double h = x[1] - x[0];
+    double u = (xp - x[n - 1]) / h;
+
+    double firstDer =
+        diff[n - 1][1]
+        + (2 * u + 1) * diff[n - 1][2] / factorial(2)
+        + (3 * u * u + 6 * u + 2) * diff[n - 1][3] / factorial(3);
+
+    firstDer /= h;
+
+    double secondDer =
+        diff[n - 1][2]
+        + (u + 1) * diff[n - 1][3];
+
+    secondDer /= (h * h);
+
+    cout << "f'(x) = " << firstDer << '\n';
+    cout << "f''(x) = " << secondDer << '\n';
+
+    return 0;
+}
+
+```
+
+## Sample Input:
+
+```cpp
+5
+1 2 3 4 5
+1 8 27 64 125
+4
+```
+
+## Sample Output:
+
+```cpp
+Num of data points:
+Enter x values:
+Enter y values:
+Enter the targeted value:
+Backward difference table:
+       1
+       8        7
+      27       19       12
+      64       37       18        6
+     125       61       24        6        0
+f'(x) = 48
+f''(x) = 24
+```
+
+## [Back to Top](#about-this-project)
+
+---
+
 # Numerical Integration
 
 ---
@@ -1308,3 +1574,5 @@ f(0.2) = 1.24
 ```
 
 ## [Back to Top](#about-this-project)
+
+---
