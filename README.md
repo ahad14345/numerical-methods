@@ -778,7 +778,7 @@ NO UNIQUE SOLUTION (Matrix singular)
 ## Matrix Inversion
 
 ### Theory
-Matrix Inversion is the process of finding a matrix (written as $A^{-1}$) that, when multiplied by the original matrix ($A$), gives you the Identity Matrix ($I$).Think of it like numbers: The "inverse" of $5$ is $\frac{1}{5}$, because $5 \times \frac{1}{5} = 1$. In matrices, it looks like this:$$A \times A^{-1} = I$$The Identity Matrix ($I$) is just a matrix with 1s on the diagonal and 0s everywhere else.
+Matrix Inversion is the process of finding a matrix (written as $A^{-1}$) that, when multiplied by the original matrix ($A$), gives you the Identity Matrix ($I$).Think of it like numbers: The inverse of $5$ is $\frac{1}{5}$, because $5 \times \frac{1}{5} = 1$. In matrices, it looks like this: AX $A^{-1}$ = IThe Identity Matrix ($I$) is just a matrix with 1s on the diagonal and 0s everywhere else.
 
 ### Algorithm
 
