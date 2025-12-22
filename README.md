@@ -73,7 +73,8 @@ In this repository, different techniques are implemented to solve linear equatio
   - Code
   - Input
   - Output
-
+---    
+### 4. Curve Fitting
 - **Exponential Regression**
   - Theory
   - Code
@@ -92,7 +93,7 @@ In this repository, different techniques are implemented to solve linear equatio
   - Input
   - Output 
 ---    
-### 4. Numerical Differentiation
+### 5. Numerical Differentiation
 - **Newton Forward Difference**
   - Theory
   - Code
@@ -105,7 +106,7 @@ In this repository, different techniques are implemented to solve linear equatio
   - Input
   - Output
 ---
-### 5. Numerical Integration
+### 6. Numerical Integration
 - **Simpson’s 1/3 Rule**
   - Theory
   - Code
@@ -118,7 +119,7 @@ In this repository, different techniques are implemented to solve linear equatio
   - Input
   - Output
 ---
-### 6. Ordinary Differential Equations
+### 7. Ordinary Differential Equations
 
 - **Runge-Kutta Method (4th Order)**
   - Theory
@@ -146,22 +147,11 @@ Where:
 - \(X\) is the matrix of unknown variables  
 - \(B\) is the constant matrix  
 
-The augmented matrix form is:
-
-\[
-[A|B] =
-\begin{bmatrix}
-a_{11} & a_{12} & \dots & a_{1n} & | & b_1 \\
-a_{21} & a_{22} & \dots & a_{2n} & | & b_2 \\
-\vdots & \vdots &       & \vdots & | & \vdots \\
-a_{n1} & a_{n2} & \dots & a_{nn} & | & b_n
-\end{bmatrix}
-\]
 
 The goal of the Gauss–Jordan method is to convert this matrix into **reduced row-echelon form**, where:
 
-- The diagonal elements become **1**
-- All other elements in each pivot column become **0**
+- The diagonal elements become 1
+- All other elements in each pivot column become 0
 - Each row represents one variable clearly
 
 After this transformation, the solution is obtained directly from the last column of the matrix.
@@ -172,9 +162,7 @@ After this transformation, the solution is obtained directly from the last colum
 
 1. **Input the matrix**  
    Read the augmented matrix into a 2D array  
-   \[
-   a[i][j], \quad i = 1 \dots n,\; j = 1 \dots n+1
-   \]
+   \[a[i][j], \quad i = 1 \dots n,\; j = 1 \dots n+1\]
 
 2. **Select the pivot element**  
    For each row \(i\), choose the diagonal element:
