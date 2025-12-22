@@ -76,14 +76,14 @@ In this repository, different techniques are implemented to solve linear equatio
 
 ---
 
-### 3. Interpolation and Approximation
+### 3. [Interpolation and Approximation](#interpolation-and-approximation)
 
-- **Newton Forward Interpolation**
+- [**Newton Forward Interpolation**](#newton-forward-interpolation)
 
-  - Theory
-  - Code
-  - Input
-  - Output
+  - [Theory](#theory-8)
+  - [Code](#code-8)
+  - [Input](#sample-input-8)
+  - [Output](#sample-output-8)
 
 - **Newton Backward Interpolation**
   - Theory
@@ -1276,10 +1276,6 @@ Bracket found: [1.83772, 2.33772]
 ## [Back to Top](#about-this-project)
 
 ---
-
-## [Back to Top](#about-this-project)
-
----
 ## Newton Raphson Method
 
 ### Theory
@@ -1612,6 +1608,131 @@ Search range: [-2.83333, 2.83333]
 Initial interval: 0.766667 1.21667
 Root: 1.00163
 Iterations: 3
+```
+
+## [Back to Top](#about-this-project)
+
+---
+# Interpolation and Approximation
+---
+## Newton Forward Interpolation
+
+### Theory
+Interpolation is a technique used to find the value of a function between given data points.
+Newton’s Forward Interpolation Method is used when:
+The data values are given at equal intervals.
+The value to be found lies near the beginning of the data table.
+This method uses forward differences to estimate the unknown value.
+### Basic Idea:
+Construct a forward difference table
+Use a polynomial formed using forward differences
+Substitute the required value in the polynomial to get the result
+
+### Algorithm
+
+1. Start
+2. Input number of data points n
+3. Input arrays x[i] and y[i]
+4. Construct forward difference table:Δyi = yi+1 − yi
+         Δ^2yi​ = Δyi+1 − Δyi
+	​
+​
+5. Compute: h= x1 ​− x0
+6. Calculate: p = (x -x0)/h
+7. Apply Newton’s forward formula:
+    f(x) = y0 - pΔy0 + p(p-1)/2! Δ^2.y0 +....
+8. Output interpolated value
+9. End 
+## Code:
+
+```cpp
+#include <bits/stdc++.h>
+using namespace std;
+
+double u_cal(double u, double i)
+{
+    double temp = 1;
+    for (int j = 0; j < i; j++)
+        temp *= (u - j);
+    return temp;
+}
+
+int facto(int x)
+{
+    if (x <= 1) return 1;
+    return x * facto(x - 1);
+}
+
+int main()
+{
+    freopen("input.txt", "r", stdin);
+    freopen("output.txt", "w", stdout);
+
+    int n;
+    cin >> n;
+
+    vector<double> x(n);
+    for (int i = 0; i < n; i++)
+    {
+        double r1, r2;
+        cin >> r1 >> r2;
+        x[i] = (r1 + r2) / 2;
+    }
+
+    vector<vector<double>> diff(n, vector<double>(n, 0));
+    for (int i = 0; i < n; i++)
+        cin >> diff[i][0];
+
+    double f1, f2;
+    cin >> f1 >> f2;
+    double resR = (f1 + f2) / 2;
+
+    for (int i = 1; i < n; i++)
+        for (int j = 0; j < n - i; j++)
+            diff[j][i] = diff[j + 1][i - 1] - diff[j][i - 1];
+
+    for (int i = 0; i < n; i++)
+    {
+        for (int j = 0; j < n - i; j++)
+            cout << diff[i][j] << " ";
+        cout << '\n';
+    }
+
+    double sum = diff[0][0];
+    double u = (resR - x[0]) / (x[1] - x[0]);
+
+    for (int i = 1; i < n; i++)
+        sum += (u_cal(u, i) * diff[0][i]) / facto(i);
+
+    cout << "\nInterpolated value = " << sum << '\n';
+    return 0;
+}
+```
+
+## Sample Input:
+
+```cpp
+4
+3 3
+5 5
+7 7
+9 9
+180
+150
+120
+90
+4 4
+```
+
+## Sample Output:
+
+```cpp
+180 -30 0 0 
+150 -30 0 
+120 -30 
+90 
+
+Interpolated value = 165
 ```
 
 ## [Back to Top](#about-this-project)
