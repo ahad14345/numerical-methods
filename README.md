@@ -46,14 +46,13 @@ In this repository, different techniques are implemented to solve linear equatio
 
 ---
 
-### 2.Non-Linear Equations
+### 2. [Non-Linear Equations](#non-linear-equations)
 
-- **Bisection Method**
-
-  - Theory
-  - Code
-  - Input
-  - Output
+- [**Bisection Method**](#bisection-method)
+  - [Theory](#theory-4)
+  - [Code](#code-4)
+  - [Input](#sample-input-4)
+  - [Output](#sample-output-4)
 
 - **False Position Method**
 
@@ -964,7 +963,8 @@ Inverse matrix:
 ## [Back to Top](#about-this-project)
 
 ---
-## Matrix Inversion
+# Non Linear Equations
+## Bisection Method
 
 ### Theory
 The Bisection Method is a simple and reliable numerical technique used to find a root of a nonlinear equation
