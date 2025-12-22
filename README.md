@@ -54,12 +54,12 @@ In this repository, different techniques are implemented to solve linear equatio
   - [Input](#sample-input-4)
   - [Output](#sample-output-4)
 
-- **False Position Method**
+- [**False Position Method**](#false-position-method)
 
-  - Theory
-  - Code
-  - Input
-  - Output
+  - [Theory](#theory-5)
+  - [Code](#code-5)
+  - [Input](#sample-input-5)
+  - [Output](#sample-output-5)
 
 - **Newton Raphson Method**
 
@@ -1119,6 +1119,163 @@ Bracket found: [1.83772, 2.33772]
 Root: 1.99998
 Iterations: 13
 ```
+## LU Decomposition
+
+### False Position Method
+The False Position Method, also called the Regula Falsi Method, is a numerical technique used to find a real root of a nonlinear equation:
+    f(x)=0
+
+Like the Bisection Method, this method also requires the function to be continuous in an interval  [a,b] and the function values at the ends to have opposite signs:
+    f(a)⋅f(b)<0
+This condition ensures that at least one root lies between a and b.
+### Basic Idea:
+Instead of taking the midpoint (as in Bisection),
+the False Position Method uses a straight line joining the points 
+  (a,f(a)) and (b,f(b)),
+the point where this line cuts the x-axis is taken as the next approximation of the root.
+This makes the method faster than Bisection in many cases.
+
+### Algorithm
+
+1. Start
+2. Input function 
+3. f(x), initial guesses a, b, tolerance 𝜀
+4. Check: f(a)⋅f(b)<0
+5. If false, stop (invalid interval)
+6. Compute:
+    c= (af(b)−bf(a))/(f(b)−f(a))
+7. If:  f(a)⋅f(c)<0
+8. Set: b=c
+9. Else: a=c
+10. Repeat steps 4–9 until:
+11. ∣f(c)∣<ε
+12. Output c as the root
+13. End
+
+---
+
+## Code:
+
+```cpp
+#include <bits/stdc++.h>
+#include <cmath>
+using namespace std;
+
+double f(double x, vector<double>& cofs)
+{
+    double sum = 0;
+    int n = cofs.size() - 1;
+    for (int i = 0; i <= n; i++)
+    {
+        sum += cofs[i] * pow(x, n - i);
+    }
+    return sum;
+}
+
+int main()
+{
+    freopen("input.txt", "r", stdin);
+    freopen("output.txt", "w", stdout);
+
+    int n; 
+    cin >> n; // reading degree of polynomial from input.txt
+
+    vector<double> cofs(n + 1);
+    for (int i = 0; i <= n; i++)
+    {
+        cin >> cofs[i]; // reading coefficients from input.txt
+    }
+
+    cout << "Polynomial: ";
+    for (int i = 0; i <= n; i++)
+    {
+        if (i != 0 && cofs[i] >= 0) cout << "+";
+        cout << cofs[i] << "x^" << n - i << " ";
+    }
+    cout << "\n";
+
+    double E = 0.0001;
+
+    double a4 = cofs[0];
+    double a3 = (n >= 3 ? cofs[n - 3] : 0);
+    double a2 = (n >= 2 ? cofs[n - 2] : 0);
+
+    double xmax = sqrt(((a3/a4)*(a3/a4)) - 2 * (a2/a4));
+    double d1 = xmax;
+    double d2 = -xmax;
+
+    cout << "Search interval: [" << d2 << ", " << d1 << "]\n\n";
+
+    double step = 0.5;
+    while (d1 > d2)
+    {
+        double x1 = d2;
+        double x2 = x1 + step;
+
+        if (f(x1, cofs) * f(x2, cofs) < 0)
+        {
+            cout << "Bracket found: [" << x1 << ", " << x2 << "]\n";
+
+            int i = 0;
+            double x0;
+
+            while (1)
+            {
+                x0 = x1 - f(x1, cofs) * (x2 - x1) / (f(x2, cofs) - f(x1, cofs));
+                if (abs(x1 - x2) < E)
+                {
+                    cout << "Root: " << x0 << "\n";
+                    cout << "Iterations: " << i << "\n\n";
+                    break;
+                }
+                if (f(x0, cofs) * f(x1, cofs) < 0)
+                {
+                    x2 = x0;
+                }
+                else
+                {
+                    x1 = x0;
+                }
+                i++;
+            }
+        }
+
+        d2 += step;
+    }
+}
+```
+
+## Sample Input:
+
+```cpp
+4
+1 0 -5 0 4
+```
+
+## Sample Output:
+
+```cpp
+Polynomial: 1x^4 +0x^3 -5x^2 +0x^1 +4x^0 
+Search interval: [-3.16228, 3.16228]
+
+Bracket found: [-2.16228, -1.66228]
+Root: -2
+Iterations: 24
+
+Bracket found: [-1.16228, -0.662278]
+Root: -1
+Iterations: 3
+
+Bracket found: [0.837722, 1.33772]
+Root: 1
+Iterations: 9
+
+Bracket found: [1.83772, 2.33772]
+```
+
+## [Back to Top](#about-this-project)
+
+---
 
 ## [Back to Top](#about-this-project)
 
