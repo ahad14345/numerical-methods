@@ -11,7 +11,7 @@ In this repository, different techniques are implemented to solve linear equatio
 
 ## Table of Contents
 
-### 1. [Linear Equations] ([#linear equations](https://github.com/ahad14345/numerical-methods#linear-equations))
+### 1. [Linear Equations] (https://github.com/ahad14345/numerical-methods#linear-equations)
 - **Gauss Elimination**
   - Theory
   - Code
