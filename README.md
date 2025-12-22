@@ -130,6 +130,249 @@ In this repository, different techniques are implemented to solve linear equatio
 ---
 # Linear Equations
 ---
+## Gauss Elimination Method
+
+### Theory 
+
+The Gauss Elimination method transforms a system of linear equations into an Upper Triangular Matrix form. This allows us to find the values of the unknowns ($x_1, x_2, \dots, x_n$) using Back Substitution.Given a system:$$a_{11}x_1 + a_{12}x_2 + a_{13}x_3 = b_1$$$$a_{21}x_1 + a_{22}x_2 + a_{23}x_3 = b_2$$$$a_{31}x_1 + a_{32}x_2 + a_{33}x_3 = b_3$$
+
+A system of linear equations can be written as:
+
+AX = B
+
+Where:
+- \(A\) is the coefficient matrix  
+- \(X\) is the matrix of unknown variables  
+- \(B\) is the constant matrix  
+
+
+The goal of the Gauss–Jordan method is to convert this matrix into **reduced row-echelon form**, where:
+
+- The diagonal elements become 1
+- All other elements in each pivot column become 0
+- Each row represents one variable clearly
+
+After this transformation, the solution is obtained directly from the last column of the matrix.
+
+---
+
+### Algorithm / Steps (with Mathematical Expressions)
+
+1. **Input the matrix**  
+   Read the augmented matrix into a 2D array  
+   a[i][j], i = 1....n; j = 1 .... n+1
+
+2. **Select the pivot element**  
+   For each row i, choose the diagonal element:
+   pivot = a[i][i]
+
+3. **Make the pivot equal to 1**  
+   Divide the entire row by the pivot element:
+   a[i][j] = a[i][j]/pivot, for all j
+
+4. **Make other elements of the column zero**  
+   For all rows:
+   a[k][j] = a[k][j] - a[k][i] * a[i][j]
+
+5. **Repeat for all rows**  
+   Continue steps 2 to 4 for i = 1.... n  until the matrix becomes:
+   [I|X]
+   where \(I\) is the identity matrix.
+
+6. **Obtain the solution**  
+   The values of the variables are:
+
+   x[i] = a[i][n+1]
+
+---
+## Code:
+```cpp
+#include <bits/stdc++.h>
+using namespace std;
+
+int main()
+{
+    freopen("input.txt", "r", stdin);
+    freopen("output.txt", "w", stdout);
+
+    int n;
+    cin >> n;   // reading number of equations from input.txt
+
+    vector<vector<double>> a(n, vector<double>(n + 1));
+
+    for (int i = 0; i < n; i++)
+    {
+        for (int j = 0; j <= n; j++)
+        {
+            cin >> a[i][j];   // reading augmented matrix from input.txt
+        }
+    }
+
+    int step = 1;
+
+    for (int i = 0; i < n; i++)
+    {
+        if (a[i][i] == 0)
+        {
+            for (int r = i + 1; r < n; r++)
+            {
+                if (a[r][i] != 0)
+                {
+                    swap(a[i], a[r]);
+                    break;
+                }
+            }
+        }
+
+        double temp = a[i][i];
+        if (temp == 0) continue;
+
+        for (int j = 0; j <= n; j++)
+        {
+            a[i][j] /= temp;
+        }
+
+        
+        for (int j = i + 1; j < n; j++)
+        {
+            double rt = a[j][i];
+            for (int k = 0; k <= n; k++)
+            {
+                a[j][k] -= rt * a[i][k];
+            }
+            cout << "After step " << step++ << ":\n";
+            for (int r = 0; r < n; r++)
+            {
+                for (int c = 0; c <= n; c++)
+                    cout << a[r][c] << " ";
+                cout << '\n';
+            }
+            cout << '\n';
+        }
+
+        
+        for (int j = i - 1; j >= 0; j--)
+        {
+            double rt = a[j][i];
+            for (int k = 0; k <= n; k++)
+            {
+                a[j][k] -= rt * a[i][k];
+            }
+            cout << "After step " << step++ << ":\n";
+            for (int r = 0; r < n; r++)
+            {
+                for (int c = 0; c <= n; c++)
+                    cout << a[r][c] << " ";
+                cout << '\n';
+            }
+            cout << '\n';
+        }
+    }
+
+    for (int i = 0; i < n; i++)
+    {
+        for (int j = 0; j <= n; j++)
+        {
+            if (fabs(a[i][j]) < 1e-9)
+                a[i][j] = 0.0;
+        }
+    }
+
+    bool inf = false, none = false;
+
+    for (int i = 0; i < n; i++)
+    {
+        bool allZero = true;
+        for (int j = 0; j < n; j++)
+        {
+            if (a[i][j] != 0)
+            {
+                allZero = false;
+                break;
+            }
+        }
+
+        if (allZero && a[i][n] == 0) inf = true;
+        else if (allZero && a[i][n] != 0) none = true;
+    }
+
+    if (inf)
+    {
+        cout << "There are infinite solutions\n";
+    }
+    else if (none)
+    {
+        cout << "There are no solutions\n";
+    }
+    else
+    {
+        cout << "The system has unique solutions\n\n";
+
+        vector<double> ans(n);
+        for (int i = 0; i < n; i++)
+        {
+            ans[i] = a[i][n];
+        }
+
+        cout << "Answer is: ";
+        for (int i = 0; i < n; i++)
+        {
+            cout << ans[i] << " ";
+        }
+        cout << endl;
+    }
+
+    return 0;
+}
+```
+## Sample Input:
+
+```cpp
+3
+2 1 -1 8
+-3 -1 2 -11
+-2 1 2 -3
+```
+
+## Sample Output:
+
+```cpp
+After step 1:
+1 0.5 -0.5 4 
+0 0.5 0.5 1 
+-2 1 2 -3 
+
+After step 2:
+1 0.5 -0.5 4 
+0 0.5 0.5 1 
+0 2 1 5 
+
+After step 3:
+1 0.5 -0.5 4 
+0 1 1 2 
+0 0 -1 1 
+
+After step 4:
+1 0 -1 3 
+0 1 1 2 
+0 0 -1 1 
+
+After step 5:
+1 0 -1 3 
+0 1 0 3 
+-0 -0 1 -1 
+
+After step 6:
+1 0 0 2 
+0 1 0 3 
+-0 -0 1 -1 
+
+The system has unique solutions
+
+Answer is: 2 3 -1 
+```
+[Back to Top](#about-this-project)
+---
 ## Gauss Jordan Method
 
 ### Theory 
