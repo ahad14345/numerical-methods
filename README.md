@@ -373,6 +373,49 @@ x3 = -1
 ## [Back to Top](#about-this-project)
 
 ---
+## LU Decomposition
+
+### Theory
+LU Decomposition (or LU Factorization) is a method to solve a system of linear equations by breaking down a square matrix into two simpler parts:
+
+1. L (Lower Triangular Matrix): A matrix where all the numbers above the main diagonal are zero.
+2. U (Upper Triangular Matrix): A matrix where all the numbers below the main diagonal are zero.
+Instead of solving one hard problem Ax = b, we turn it into two easy problems involving triangles.
+
+### Algorithm
+
+To perform LU Decomposition on a matrix:
+1. Start: Take your main matrix A.
+2. Find U: Use the same steps as Gauss Elimination (Forward Elimination) to create zeros below the diagonal.
+   This resulting matrix is your U.
+3. Find L: As you create zeros for U, keep track of the "multipliers" you used.
+4. Put these multipliers in a new matrix. The diagonal of L will be all 1s.
+5. Solve:First, solve Ly = b (Forward Substitution).Then, solve Ux = y (Back Substitution).
+6. Stop: The x values are our final answer.
+
+---
+
+## Code:
+
+```cpp
+
+```
+
+## Sample Input:
+
+```cpp
+
+```
+
+## Sample Output:
+
+```cpp
+
+```
+
+## [Back to Top](#about-this-project)
+
+---
 
 ## Gauss Jordan Method
 
