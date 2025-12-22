@@ -964,7 +964,165 @@ Inverse matrix:
 ## [Back to Top](#about-this-project)
 
 ---
+## Matrix Inversion
 
+### Theory
+The Bisection Method is a simple and reliable numerical technique used to find a root of a nonlinear equation
+    𝑓(𝑥) =0
+This method works only when the function is continuous in an interval [a,b] and the function values at the ends have opposite signs:
+    𝑓(𝑎)⋅𝑓(𝑏)<0
+This condition guarantees that at least one root lies between 𝑎 and 𝑏 (by the Intermediate Value Theorem).
+
+
+### Algorithm
+
+1. Start
+2. Input function 𝑓(𝑥), initial values 𝑎, 𝑏, and tolerance 𝜀
+3. Check:
+    𝑓(𝑎)⋅𝑓(𝑏)< 0
+4. If false, stop (invalid interval)
+5. Compute midpoint:
+    c= (a+b)/2​
+6. Check: f(a)⋅f(c)<0
+
+7. If true, set:
+    b=c
+8. Else:
+    a=c
+9. Repeat steps 4–8 until:
+    ∣b−a∣<ε
+
+10. Output: Root=(a+b)/2
+11. End
+---
+## Code:
+
+```cpp
+#include <bits/stdc++.h>
+#include <cmath>
+using namespace std;
+
+double f(double x, vector<double>& cofs)
+{
+    double sum = 0;
+    int n = cofs.size() - 1;
+    for (int i = 0; i <= n; i++)
+    {
+        sum += cofs[i] * pow(x, n - i);
+    }
+    return sum;
+}
+
+int main()
+{
+    freopen("input.txt", "r", stdin);
+    freopen("output.txt", "w", stdout);
+
+    int n;
+    cin >> n; // degree of polynomial
+
+    vector<double> cofs(n + 1);
+    for (int i = 0; i <= n; i++)
+    {
+        cin >> cofs[i]; // coefficients
+    }
+
+    cout << "Polynomial: ";
+    for (int i = 0; i <= n; i++)
+    {
+        if (i != 0 && cofs[i] >= 0) cout << "+";
+        if (n - i > 1)
+            cout << cofs[i] << "x^" << n - i << " ";
+        else if (n - i == 1)
+            cout << cofs[i] << "x ";
+        else
+            cout << cofs[i] << " ";
+    }
+    cout << "\n";
+
+    double E = 0.0001;
+
+    double a4 = cofs[0];
+    double a3 = (n >= 3 ? cofs[n - 3] : 0);
+    double a2 = (n >= 2 ? cofs[n - 2] : 0);
+
+    double xmax = sqrt(((a3 / a4) * (a3 / a4)) - 2 * (a2 / a4));
+    double d1 = -xmax;
+    double d2 = xmax;
+
+    cout << "Search interval: [" << d1 << ", " << d2 << "]\n\n";
+
+    double step = 0.5;
+    while (d1 < d2)
+    {
+        double x1 = d1;
+        double x2 = x1 + step;
+
+        if (f(x1, cofs) * f(x2, cofs) < 0)
+        {
+            cout << "Bracket found: [" << x1 << ", " << x2 << "]\n";
+
+            int i = 0;
+            double x0;
+
+            while (true)
+            {
+                x0 = (x1 + x2) / 2.0; // Bisection midpoint
+
+                if (abs(f(x0, cofs)) < E || abs(x2 - x1) < E)
+                {
+                    cout << "Root: " << x0 << "\n";
+                    cout << "Iterations: " << i << "\n\n";
+                    break;
+                }
+
+                if (f(x0, cofs) * f(x1, cofs) < 0)
+                    x2 = x0;
+                else
+                    x1 = x0;
+
+                i++;
+            }
+        }
+
+        d1 += step;
+    }
+}
+```
+
+## Sample Input:
+
+```cpp
+4
+1 0 -5 0 4
+```
+
+## Sample Output:
+
+```cpp
+Polynomial: 1x^4 +0x^3 -5x^2 +0x +4 
+Search interval: [-3.16228, 3.16228]
+
+Bracket found: [-2.16228, -1.66228]
+Root: -2.00002
+Iterations: 13
+
+Bracket found: [-1.16228, -0.662278]
+Root: -0.999985
+Iterations: 12
+
+Bracket found: [0.837722, 1.33772]
+Root: 1.00001
+Iterations: 12
+
+Bracket found: [1.83772, 2.33772]
+Root: 1.99998
+Iterations: 13
+```
+
+## [Back to Top](#about-this-project)
+
+---
 # Curve Fitting
 
 ---
