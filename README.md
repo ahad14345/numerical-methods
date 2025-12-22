@@ -782,124 +782,148 @@ Matrix Inversion is the process of finding a matrix (written as $A^{-1}$) that, 
 
 ### Algorithm
 
-To perform LU Decomposition on a matrix:
-1. Start: Take your main matrix A.
-2. Find U: Use the same steps as Gauss Elimination (Forward Elimination) to create zeros below the diagonal.
-   This resulting matrix is your U.
-3. Find L: As you create zeros for U, keep track of the "multipliers" you used.
-4. Put these multipliers in a new matrix. The diagonal of L will be all 1s.
-5. Solve:First, solve Ly = b (Forward Substitution).Then, solve Ux = y (Back Substitution).
-6. Stop: The x values are our final answer.
-
+1. Calculate the Determinant: Find $\text{det}(A)$.
+2. If $\text{det}(A) = 0$, stop and print "Inverse does not exist."
+3. For every element in the matrix, find its determinant of the smaller matrix left over when you hide its row and column and apply a plus/minus sign.
+4. Take the matrix of cofactors and transpose it (swap the rows with columns).
+5. Divide every element in the Adjoint matrix by the Determinant.
+6. After getting inverse matrix multiply it with X .
+7. After multiplication values of X are final answer.
 ---
 
 ## Code:
 
 ```cpp
-#include <bits/stdc++.h>
+#include <iostream>
+#include <vector>
 using namespace std;
 
-bool decomp(vector<vector<double>>& A,int n,vector<vector<double>>& L,vector<vector<double>>& U,vector<int>& p){
-    for(int i=0;i<n;i++){
-        p[i]=i;
-        for(int j=0;j<n;j++){
-            U[i][j]=A[i][j];
-            L[i][j]=(i==j?1:0);}}
+void makeCofactor(vector<vector<int>>& a, vector<vector<int>>& temp,
+                  int r, int c, int sz)
+{
+    int x = 0, y = 0;
+    for (int i = 0; i < sz; i++)
+    {
+        for (int j = 0; j < sz; j++)
+        {
+            if (i != r && j != c)
+            {
+                temp[x][y++] = a[i][j];
+                if (y == sz - 1)
+                {
+                    y = 0;
+                    x++;
+                }
+            }
+        }
+    }
+}
 
-    for(int k=0;k<n;k++){
-        int r=k;
-        double v=fabs(U[k][k]);
-        for(int i=k+1;i<n;i++){
-            if(fabs(U[i][k])>v){
-                v=fabs(U[i][k]);
-                r=i;}}
-        if(v<1e-12) return false;
-        if(r!=k){
-            swap(U[k],U[r]);
-            swap(L[k],L[r]);
-            swap(p[k],p[r]);
-            for(int j=0;j<k;j++)swap(L[k][j],L[r][j]);}
-        for(int i=k+1;i<n;i++){
-            L[i][k]=U[i][k]/U[k][k];
-            for(int j=k;j<n;j++) U[i][j]-=L[i][k]*U[k][j];}}
+int determinant(vector<vector<int>>& a, int sz)
+{
+    if (sz == 1)
+        return a[0][0];
+
+    int ans = 0;
+    vector<vector<int>> temp(sz, vector<int>(sz));
+    int sign = 1;
+
+    for (int f = 0; f < sz; f++)
+    {
+        makeCofactor(a, temp, 0, f, sz);
+        ans += sign * a[0][f] * determinant(temp, sz - 1);
+        sign = -sign;
+    }
+    return ans;
+}
+
+void getAdjoint(vector<vector<int>>& a, vector<vector<int>>& adj)
+{
+    int sz = a.size();
+    if (sz == 1)
+    {
+        adj[0][0] = 1;
+        return;
+    }
+
+    vector<vector<int>> temp(sz, vector<int>(sz));
+    int sign;
+
+    for (int i = 0; i < sz; i++)
+    {
+        for (int j = 0; j < sz; j++)
+        {
+            makeCofactor(a, temp, i, j, sz);
+            sign = ((i + j) % 2 == 0) ? 1 : -1;
+            adj[j][i] = sign * determinant(temp, sz - 1);
+        }
+    }
+}
+
+bool findInverse(vector<vector<int>>& a, vector<vector<float>>& inv)
+{
+    int sz = a.size();
+    int det = determinant(a, sz);
+
+    if (det == 0)
+    {
+        cout << "Inverse does not exist\n";
+        return false;
+    }
+
+    vector<vector<int>> adj(sz, vector<int>(sz));
+    getAdjoint(a, adj);
+
+    for (int i = 0; i < sz; i++)
+        for (int j = 0; j < sz; j++)
+            inv[i][j] = adj[i][j] / float(det);
+
     return true;
 }
 
-void fwd(const vector<vector<double>>& L,vector<double>& y,const vector<double>& b,const vector<int>& p,int n){
-    vector<double> bp(n);
-    for(int i=0;i<n;i++){bp[i]=b[p[i]];}
-    for(int i=0;i<n;i++){
-        y[i]=bp[i];
-        for(int j=0;j<i;j++) y[i]-=L[i][j]*y[j];}}
+int main()
+{
+    freopen("input.txt", "r", stdin);
+    freopen("output.txt", "w", stdout);
 
-void bwd(const vector<vector<double>>& U,vector<double>& x,const vector<double>& y,int n) {
-    for(int i=n-1;i>=0;i--){
-        if(fabs(U[i][i])<1e-12){
-            x[i]=0;
-            continue;}
-        x[i]=y[i];
-        for(int j=i+1;j<n;j++) x[i]-=U[i][j]*x[j];
-        x[i]/=U[i][i];}}
+    int n;
+    cin >> n;
 
-int main(){
-    ifstream fin("input.txt");
-    ofstream fout("output.txt");
+    vector<vector<int>> matrix(n, vector<int>(n));
+    for (int i = 0; i < n; i++)
+        for (int j = 0; j < n; j++)
+            cin >> matrix[i][j];
 
-    int n;fin >> n;
+    vector<vector<int>> adj(n, vector<int>(n));
+    vector<vector<float>> inv(n, vector<float>(n));
 
-    vector<vector<double>> A(n,vector<double>(n)),L(n,vector<double>(n)),U(n,vector<double>(n));
-    vector<int> p(n);
-    vector<double> b(n),x(n),y(n);
-
-    for(int i=0;i<n;i++)for(int j=0;j<n;j++)fin >> A[i][j];
-
-    for(int i=0;i<n;i++)fin >> b[i];
-
-    bool ok=decomp(A,n,L,U,p);
-
-    if(!ok){
-        fout << "NO UNIQUE SOLUTION (Matrix singular)\n";
-        return 0;
+    cout << "Matrix:\n";
+    for (auto &r : matrix)
+    {
+        for (int v : r)
+            cout << v << " ";
+        cout << "\n";
     }
 
-    bool infinite = false;
-    for(int i=0;i<n;i++){
-        bool allZero = true;
-        for(int j=0;j<n;j++){
-            if(fabs(A[i][j])>1e-12){
-                allZero = false;
-                break;}}
-        if(allZero && fabs(b[i])<1e-12)
-            infinite = true;
-        if(allZero && fabs(b[i])>1e-12){
-            fout << "NO SOLUTION\n";
-            return 0;
+    cout << "\nAdjoint matrix:\n";
+    getAdjoint(matrix, adj);
+    for (auto &r : adj)
+    {
+        for (int v : r)
+            cout << v << " ";
+        cout << "\n";
+    }
+
+    cout << "\nInverse matrix:\n";
+    if (findInverse(matrix, inv))
+    {
+        for (auto &r : inv)
+        {
+            for (float v : r)
+                cout << v << " ";
+            cout << "\n";
         }
     }
-
-    fwd(L,y,b,p,n);
-    bwd(U,x,y,n);
-
-    fout<<fixed<<setprecision(6);
-
-    fout<<"\nL (Lower Triangular):\n";
-    for(int i=0;i<n;i++){
-        for(int j=0;j<n;j++) fout << setw(12) << L[i][j];
-        fout<<"\n";
-    }
-
-    fout<<"\nU (Upper Triangular):\n";
-    for(int i=0;i<n;i++){
-        for(int j=0;j<n;j++) fout<<setw(12)<<U[i][j];
-        fout<<"\n";
-    }
-
-    fout<<"\nSolution:\n";
-    for(int i=0;i<n;i++)
-        fout<<"x"<<i+1<<" = "<<x[i]<<"\n";
-
-    if(infinite) fout<<"\nINFINITE SOLUTIONS\n";
-    else  fout<<"\nUNIQUE SOLUTION\n";
 
     return 0;
 }
@@ -908,17 +932,33 @@ int main(){
 ## Sample Input:
 
 ```cpp
-3
-1 2 3
-2 4 6
-7 8 9
-1 2 3
+4
+5 -2 2 7
+1 0 0 3
+-3 1 5 0
+3 -1 -9 4
 ```
 
 ## Sample Output:
 
 ```cpp
-NO UNIQUE SOLUTION (Matrix singular)
+Matrix:
+5 -2 2 7 
+1 0 0 3 
+-3 1 5 0 
+3 -1 -9 4 
+
+Adjoint matrix:
+-12 76 -60 -36 
+-56 208 -82 -58 
+4 4 -2 -10 
+4 4 20 12 
+
+Inverse matrix:
+-0.136364 0.863636 -0.681818 -0.409091 
+-0.636364 2.36364 -0.931818 -0.659091 
+0.0454545 0.0454545 -0.0227273 -0.113636 
+0.0454545 0.0454545 0.227273 0.136364 
 ```
 
 ## [Back to Top](#about-this-project)
