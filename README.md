@@ -11,7 +11,7 @@ In this repository, different techniques are implemented to solve linear equatio
 
 ## Table of Contents
 
-### 1. Linear Equations
+### 1. [Linear Equations] (#linear equations)
 - **Gauss Elimination**
   - Theory
   - Code
