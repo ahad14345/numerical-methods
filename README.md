@@ -61,12 +61,12 @@ In this repository, different techniques are implemented to solve linear equatio
   - [Input](#sample-input-5)
   - [Output](#sample-output-5)
 
-- **Newton Raphson Method**
+- [**Newton Raphson Method**](#newton-raphson-method)
 
-  - Theory
-  - Code
-  - Input
-  - Output
+  - [Theory](#theory-6)
+  - [Code](#code-6)
+  - [Input](#sample-input-6)
+  - [Output](#sample-output-6)
 
 - **Secant Method**
   - Theory
@@ -1119,9 +1119,9 @@ Bracket found: [1.83772, 2.33772]
 Root: 1.99998
 Iterations: 13
 ```
-## LU Decomposition
+## False Position Method
 
-### False Position Method
+### Theory
 The False Position Method, also called the Regula Falsi Method, is a numerical technique used to find a real root of a nonlinear equation:
     f(x)=0
 
@@ -1280,10 +1280,179 @@ Bracket found: [1.83772, 2.33772]
 ## [Back to Top](#about-this-project)
 
 ---
-# Curve Fitting
+## Newton Raphson Method
+
+### Theory
+The Newton–Raphson Method is a fast numerical technique used to find an approximate root of a nonlinear equation:
+    f(x)=0
+
+Unlike the Bisection and False Position methods, this method uses the derivative of the function. It starts with an initial guess x0​
+close to the actual root and improves this guess step by step.
+### Basic Idea:
+Draw a tangent to the curve y=f(x) at the point (xn​,f(xn​))
+The point where this tangent cuts the x-axis is taken as the next approximation
+This process is repeated until the solution converges
+Because it uses slope information, the Newton–Raphson method converges very fast.
+### Algorithm
+
+1. Start
+2. Input function 
+3. f(x), initial guesses x0, tolerance 𝜀
+4. Find, derivative f′(x)
+5. Compute:
+    x1 = x0 - f(x0)/f'(x0)
+6. Check:
+    ∣x1	−x0∣<ε
+7.If true, go to step 9
+  else, set: x0​ = x1	​
+8. Repeat steps 5–7
+9. Output x1 as the root
+10.End
 
 ---
 
+## Code:
+
+```cpp
+#include <bits/stdc++.h>
+using namespace std;
+
+double f(double x, vector<int> &cofs, int n)
+{
+    double sum {};
+    for (int i = 0; i <= n; i++)
+    {
+        sum += cofs[i] * pow(x, n - i);
+    }
+    return sum;
+}
+
+double df(double x, vector<int> &cofs2, int n)
+{
+    double sum {};
+    for (int i = 0; i <= n - 1; i++)
+    {
+        sum += cofs2[i] * pow(x, n - i);
+    }
+    return sum;
+}
+
+void printPolynomial(vector<int>& cofs)
+{
+    int n = cofs.size() - 1;
+    for (int i = 0; i <= n; i++)
+    {
+        if (cofs[i] == 0) continue;
+        if (i != 0 && cofs[i] > 0) cout << "+";
+        cout << cofs[i];
+        if (n - i > 1) cout << "x^" << n - i;
+        else if (n - i == 1) cout << "x";
+        cout << " ";
+    }
+    cout << "= 0\n";
+}
+
+int main()
+{
+    freopen("input.txt", "r", stdin);
+    freopen("output.txt", "w", stdout);
+
+    double E = 10e-3;
+    double step = 0.45;
+    int n;
+    cout << "No. of degree of the equation: ";
+    cin >> n;
+
+    vector<int> cofs(n + 1);
+    cout << "Coefficients of the equation: ";
+    for (int i = 0; i <= n; i++)
+        cin >> cofs[i];
+
+    printPolynomial(cofs);
+
+    vector<int> cofs2(n);
+    for (int i = 0; i < n; i++)
+        cofs2[i] = cofs[i] * (n - i);
+
+    cout << "Derivative: ";
+    printPolynomial(cofs2);
+
+    double xmax = 1, mx {};
+    for (int i = 0; i <= n; i++)
+        if (mx < abs(cofs[i]))
+            mx = abs(cofs[i]);
+    xmax += abs(mx / cofs[0]);
+
+    double d1 = -xmax;
+    double d2 = xmax;
+
+    while (d1 < d2)
+    {
+        double x1 = d1;
+        double x2 = d1 + step;
+        double f1 = f(x1, cofs, n);
+        double f2 = f(x2, cofs, n);
+
+        if ((f1 * f2) < 0)
+        {
+            double x0;
+            int i = 0;
+            cout << "\nBracket found: [" << x1 << ", " << x2 << "]\n";
+
+            while (true)
+            {
+                x0 = x1 - (f(x1, cofs, n)) / (df(x1, cofs2, n - 1));
+                if ((abs(x0 - x1) < E) && (abs(f(x0, cofs, n)) < E))
+                {
+                    cout << "Root: " << x0 << "\n";
+                    cout << "Iteration number: " << i << "\n";
+                    break;
+                }
+                x1 = x0;
+                i++;
+            }
+        }
+        d1 += step;
+    }
+
+    return 0;
+}
+```
+
+## Sample Input:
+
+```cpp
+4
+1 0 -5 0 4
+```
+
+## Sample Output:
+
+```cpp
+No. of degree of the equation: Coefficients of the equation: 1x^4 -5x^2 +4 = 0
+Derivative: 4x^3 -10x = 0
+
+Bracket found: [-2.4, -1.95]
+Root: -2
+Iteration number: 3
+
+Bracket found: [-1.05, -0.6]
+Root: -1
+Iteration number: 1
+
+Bracket found: [0.75, 1.2]
+Root: 0.999986
+Iteration number: 1
+
+Bracket found: [1.65, 2.1]
+Root: 2.00003
+Iteration number: 5
+```
+
+## [Back to Top](#about-this-project)
+
+---
+# Curve Fitting
 ## Linear Regression
 
 ### Theory
