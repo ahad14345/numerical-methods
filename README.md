@@ -136,14 +136,14 @@ In this repository, different techniques are implemented to solve linear equatio
 
 ### 6. [Numerical Integration](#numerical-integration)
 
-- [**Simpson’s 1/3 Rule**](#simpson’s-1/3-rule)
+- [**Simpson’s 1/3 Rule**](#simpson's-13-rule)
 
   - [Theory](#theory-15)
   - [Code](#code-15)
   - [Input](#sample-input-15)
   - [Output](#sample-output-15)
 
-- [**Simpson’s 3/8 Rule**](#simpson’s-3/8-rule)
+- [**Simpson’s 3/8 Rule**](#simpson’s-38-rule)
   - [Theory](#theory-16)
   - [Code](#code-16)
   - [Input](#sample-input-16)
