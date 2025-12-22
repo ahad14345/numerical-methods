@@ -143,7 +143,7 @@ In this repository, different techniques are implemented to solve linear equatio
   - [Input](#sample-input-15)
   - [Output](#sample-output-15)
 
-- **Simpson’s 3/8 Rule**
+- [**Simpson’s 3/8 Rule**](#simpson’s-3/8-rule)
   - [Theory](#theory-16)
   - [Code](#code-16)
   - [Input](#sample-input-16)
@@ -151,9 +151,9 @@ In this repository, different techniques are implemented to solve linear equatio
 
 ---
 
-### 7. Ordinary Differential Equations
+### 7. [Ordinary Differential Equations](#ordinary-differential-equations)
 
-- **Runge-Kutta Method (4th Order)**
+- [**Runge-Kutta Method (4th Order)**](#runge-kutta-method)
   - [Theory](#theory-17)
   - [Code](#code-17)
   - [Input](#sample-input-17)
@@ -2540,7 +2540,7 @@ f''(x) = 24
 
 ---
 
-## Simpson's One-Third Rule
+## Simpson's 1/3 Rule
 
 ### Theory
 
@@ -2631,7 +2631,7 @@ Integration of the function: 0.78539
 
 ---
 
-## Simpson's Three-Eighths Rule
+## Simpson's 3/8 Rule
 
 ### Theory
 
@@ -2726,7 +2726,7 @@ Integration of the function: 6.329
 
 ---
 
-## Runge-Kutta method
+## Runge Kutta Method
 
 ### Theory
 
