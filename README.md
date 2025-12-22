@@ -12,17 +12,17 @@ In this repository, different techniques are implemented to solve linear equatio
 ## Table of Contents
 
 ### 1. [Linear Equations](#linear-equations)
-- [**Gauss Elimination**](https://github.com/ahad14345/numerical-methods#theory)
+- **Gauss Elimination**
   - Theory
   - Code
   - Input
   - Output
 
-- **Gauss Jordan Elimination**
-  - Theory
-  - Code
-  - Input
-  - Output
+- [**Gauss Jordan Elimination**](#gauss-jordan-method)
+  - [Theory](#theory)
+  - [Code](#code)
+  - [Input](#input)
+  - [Output](#output)
 
 - **LU Decomposition**
   - Theory
@@ -130,7 +130,7 @@ In this repository, different techniques are implemented to solve linear equatio
 ---
 # Linear Equations
 ---
-## Gauss–Jordan Method
+## Gauss Jordan Method
 
 ### Theory 
 
@@ -195,106 +195,131 @@ int main()
     freopen("input.txt", "r", stdin);
     freopen("output.txt", "w", stdout);
 
-    while (true)
+    int n;
+    cin >> n;   // reading number of equations from input.txt
+
+    vector<vector<double>> a(n, vector<double>(n + 1));
+
+    for (int i = 0; i < n; i++)
     {
-        int n;
-        cin >> n;   // reading number of equations from input.txt
-
-        vector<vector<double>> a(n, vector<double>(n + 1));
-        vector<double> ans(n);
-
-        for (int i = 0; i < n; i++)
+        for (int j = 0; j <= n; j++)
         {
-            for (int j = 0; j < n + 1; j++)
-            {
-                cin >> a[i][j];   // reading augmented matrix from input.txt
-            }
+            cin >> a[i][j];   // reading augmented matrix from input.txt
         }
+    }
 
-        int step = 1;
+    int step = 1;
 
-        for (int i = 0; i < n; i++)
+    for (int i = 0; i < n; i++)
+    {
+        if (a[i][i] == 0)
         {
-            if (a[i][i] == 0) continue;
-
-            for (int j = i + 1; j < n; j++)
+            for (int r = i + 1; r < n; r++)
             {
-                double rt = a[j][i] / a[i][i];
-
-                for (int k = 0; k <= n; k++)
+                if (a[r][i] != 0)
                 {
-                    a[j][k] -= rt * a[i][k];
-                }
-
-                cout << "After step " << step++ << ":\n\n";
-
-                for (int r = 0; r < n; r++)
-                {
-                    for (int c = 0; c < n + 1; c++)
-                    {
-                        cout << a[r][c] << " ";
-                    }
-                    cout << '\n';
-                }
-                cout << '\n';
-            }
-        }
-
-        bool inf = false, none = false;
-
-        for (int i = 0; i < n; i++)
-        {
-            bool allZero = true;
-            for (int j = 0; j < n; j++)
-            {
-                if (a[i][j] != 0)
-                {
-                    allZero = false;
+                    swap(a[i], a[r]);
                     break;
                 }
             }
-
-            if (allZero && a[i][n] == 0) inf = true;
-            else if (allZero && a[i][n] != 0) none = true;
         }
 
-        if (inf)
-        {
-            cout << "There are infinite solutions\n\n";
-        }
-        else if (none)
-        {
-            cout << "There are no solutions\n\n";
-        }
-        else
-        {
-            cout << "The system has unique solutions\n\n";
+        double temp = a[i][i];
+        if (temp == 0) continue;
 
-            for (int i = n - 1; i >= 0; i--)
+        for (int j = 0; j <= n; j++)
+        {
+            a[i][j] /= temp;
+        }
+
+        
+        for (int j = i + 1; j < n; j++)
+        {
+            double rt = a[j][i];
+            for (int k = 0; k <= n; k++)
             {
-                double sum = a[i][n];
-
-                for (int j = i + 1; j < n; j++)
-                {
-                    sum -= a[i][j] * ans[j];
-                }
-
-                ans[i] = sum / a[i][i];
+                a[j][k] -= rt * a[i][k];
             }
-
-            for (int i = 0; i < n; i++)
+            cout << "After step " << step++ << ":\n";
+            for (int r = 0; r < n; r++)
             {
-                cout << "x" << i + 1 << " = " << ans[i] << '\n';
+                for (int c = 0; c <= n; c++)
+                    cout << a[r][c] << " ";
+                cout << '\n';
+            }
+            cout << '\n';
+        }
+
+        
+        for (int j = i - 1; j >= 0; j--)
+        {
+            double rt = a[j][i];
+            for (int k = 0; k <= n; k++)
+            {
+                a[j][k] -= rt * a[i][k];
+            }
+            cout << "After step " << step++ << ":\n";
+            for (int r = 0; r < n; r++)
+            {
+                for (int c = 0; c <= n; c++)
+                    cout << a[r][c] << " ";
+                cout << '\n';
+            }
+            cout << '\n';
+        }
+    }
+
+    for (int i = 0; i < n; i++)
+    {
+        for (int j = 0; j <= n; j++)
+        {
+            if (fabs(a[i][j]) < 1e-9)
+                a[i][j] = 0.0;
+        }
+    }
+
+    bool inf = false, none = false;
+
+    for (int i = 0; i < n; i++)
+    {
+        bool allZero = true;
+        for (int j = 0; j < n; j++)
+        {
+            if (a[i][j] != 0)
+            {
+                allZero = false;
+                break;
             }
         }
 
-        char con;
-        cin >> con;
+        if (allZero && a[i][n] == 0) inf = true;
+        else if (allZero && a[i][n] != 0) none = true;
+    }
 
-        if (con == 'n')
+    if (inf)
+    {
+        cout << "There are infinite solutions\n";
+    }
+    else if (none)
+    {
+        cout << "There are no solutions\n";
+    }
+    else
+    {
+        cout << "The system has unique solutions\n\n";
+
+        vector<double> ans(n);
+        for (int i = 0; i < n; i++)
         {
-            break;
+            ans[i] = a[i][n];
         }
+
+        cout << "Answer is: ";
+        for (int i = 0; i < n; i++)
+        {
+            cout << ans[i] << " ";
+        }
+        cout << endl;
     }
 
     return 0;
@@ -307,35 +332,44 @@ int main()
 2 1 -1 8
 -3 -1 2 -11
 -2 1 2 -3
-n
 ```
 
 ## Sample Output:
 
 ```cpp
 After step 1:
-
-2 1 -1 8 
+1 0.5 -0.5 4 
 0 0.5 0.5 1 
 -2 1 2 -3 
 
 After step 2:
-
-2 1 -1 8 
+1 0.5 -0.5 4 
 0 0.5 0.5 1 
 0 2 1 5 
 
 After step 3:
-
-2 1 -1 8 
-0 0.5 0.5 1 
+1 0.5 -0.5 4 
+0 1 1 2 
 0 0 -1 1 
+
+After step 4:
+1 0 -1 3 
+0 1 1 2 
+0 0 -1 1 
+
+After step 5:
+1 0 -1 3 
+0 1 0 3 
+-0 -0 1 -1 
+
+After step 6:
+1 0 0 2 
+0 1 0 3 
+-0 -0 1 -1 
 
 The system has unique solutions
 
-x1 = 2
-x2 = 3
-x3 = -1
+Answer is: 2 3 -1 
 ```
 ---
 
