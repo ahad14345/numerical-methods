@@ -21,8 +21,8 @@ In this repository, different techniques are implemented to solve linear equatio
 - [**Gauss Jordan Elimination**](#gauss-jordan-method)
   - [Theory](#theory)
   - [Code](#code)
-  - [Input](#input)
-  - [Output](#output)
+  - [Input](#sample-input)
+  - [Output](#sample-output)
 
 - **LU Decomposition**
   - Theory
