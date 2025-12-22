@@ -151,7 +151,7 @@ In this repository, different techniques are implemented to solve linear equatio
 
 ---
 
-### 7. [Ordinary Differential Equations](#ordinary-differential-equations)
+### 7. [Ordinary Differential Equations](#solution-of-differential-equations)
 
 - [**Runge-Kutta Method (4th Order)**](#runge-kutta-method)
   - [Theory](#theory-17)
