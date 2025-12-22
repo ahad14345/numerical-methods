@@ -85,80 +85,79 @@ In this repository, different techniques are implemented to solve linear equatio
   - [Input](#sample-input-8)
   - [Output](#sample-output-8)
 
-- **Newton Backward Interpolation**
-  - Theory
-  - Code
-  - Input
-  - Output
+- [**Newton Backward Interpolation**](#newton-backward-interpolation)
+  - [Theory](#theory-9)
+  - [Code](#code-9)
+  - [Input](#sample-input-9)
+  - [Output](#sample-output-9)
 
 ---
 
-### 4. Curve Fitting
+### 4. [Curve Fitting](#curve-fitting)
 
-- **Exponential Regression**
+- [**Linear Regression**](#linear-regression)
 
-  - Theory
-  - Code
-  - Input
-  - Output
+  - [Theory](#theory-10)
+  - [Code](#code-10)
+  - [Input](#sample-input-10)
+  - [Output](#sample-output-10)
 
-- **Linear Regression**
+- [**Exponential Regression**](#exponential-regression)
 
-  - Theory
-  - Code
-  - Input
-  - Output
+  - [Theory](#theory-11)
+  - [Code](#code-11)
+  - [Input](#sample-input-11)
+  - [Output](#sample-output-11)
 
-- **Polynomial Regression**
-  - Theory
-  - Code
-  - Input
-  - Output
-
----
-
-### 5. Numerical Differentiation
-
-- **Newton Forward Difference**
-
-  - Theory
-  - Code
-  - Input
-  - Output
-
-- **Newton Backward Difference**
-  - Theory
-  - Code
-  - Input
-  - Output
+- [**Polynomial Regression**](#polynomial-regression) 
+  - [Theory](#theory-12)
+  - [Code](#code-12)
+  - [Input](#sample-input-12)
+  - [Output](#sample-output-12)
 
 ---
 
-### 6. Numerical Integration
+### 5. [Numerical Differentiation](#numerical-differentiation)
 
-- **Simpson’s 1/3 Rule**
+- [**Newton's Forward Difference**](#newton's-forward-difference)
 
-  - Theory
-  - Code
-  - Input
-  - Output
+  - [Theory](#theory-13)
+  - [Code](#code-13)
+  - [Input](#sample-input-13)
+  - [Output](#sample-output-13)
+
+- [**Newton's Backward Difference**](#newton's-backward-difference)
+  - [Theory](#theory-14)
+  - [Code](#code-14)
+  - [Input](#sample-input-14)
+  - [Output](#sample-output-14)
+
+---
+
+### 6. [Numerical Integration](#numerical-integration)
+
+- [**Simpson’s 1/3 Rule**](#simpson’s-1/3-rule)
+
+  - [Theory](#theory-15)
+  - [Code](#code-15)
+  - [Input](#sample-input-15)
+  - [Output](#sample-output-15)
 
 - **Simpson’s 3/8 Rule**
-  - Theory
-  - Code
-  - Input
-  - Output
+  - [Theory](#theory-16)
+  - [Code](#code-16)
+  - [Input](#sample-input-16)
+  - [Output](#sample-output-16)
 
 ---
 
 ### 7. Ordinary Differential Equations
 
 - **Runge-Kutta Method (4th Order)**
-  - Theory
-  - Code
-  - Input
-  - Output
-
+  - [Theory](#theory-17)
+  - [Code](#code-17)
+  - [Input](#sample-input-17)
+  - [Output](#sample-output-17)
 ---
 
 # Linear Equations
@@ -1733,6 +1732,131 @@ int main()
 90 
 
 Interpolated value = 165
+```
+
+## [Back to Top](#about-this-project)
+
+---
+## Newton Forward Interpolation
+
+### Theory
+Interpolation is a technique used to find the value of a function between given data points.
+Newton’s Backward Interpolation Method is used when:
+The data points are given at equal intervals
+The value to be found lies near the end of the data table
+This method uses backward differences instead of forward differences.
+### Basic Idea:
+Construct a backward difference table
+Form a polynomial using backward differences
+Substitute the required value to estimate the function value
+
+### Algorithm
+
+1. Start
+2. Input number of data points n
+3. Input arrays x[i] and y[i]
+4. Construct forward difference table: ∇yi = yi − yi-1
+         ∇^2yi​ = ∇yi − ∇yi-1​
+​
+5. Compute: h= x1 ​− x0
+6. Calculate: p = (x -xn)/h
+7. Apply Newton’s forward formula:
+    f(x) = yn + p∇yn + p(p+1)/2! ∇^2.yn +....
+8. Output interpolated value
+9. End
+## Code:
+
+```cpp
+#include <bits/stdc++.h>
+using namespace std;
+
+double v_cal(double u, double n)
+{
+    double temp = u;
+    for (int i = 1; i < n; i++)
+        temp *= (u + i);
+    return temp;
+}
+
+int facto(int n)
+{
+    if (n <= 1) return 1;
+    return n * facto(n - 1);
+}
+
+int main()
+{
+    freopen("input.txt", "r", stdin);
+    freopen("output.txt", "w", stdout);
+
+    int n;
+    cin >> n;
+
+    vector<double> x(n);
+    for (int i = 0; i < n; i++)
+    {
+        double r1, r2;
+        cin >> r1 >> r2;
+        x[i] = (r1 + r2) / 2;
+    }
+
+    vector<vector<double>> diff(n, vector<double>(n, 0));
+    for (int i = 0; i < n; i++)
+        cin >> diff[i][0];
+
+    double f1, f2;
+    cin >> f1 >> f2;
+    double resR = (f1 + f2) / 2;
+
+    for (int i = 1; i < n; i++)
+        for (int j = n - 1; j >= i; j--)
+            diff[j][i] = diff[j][i - 1] - diff[j - 1][i - 1];
+
+    for (int i = 0; i < n; i++)
+    {
+        for (int j = 0; j <= i; j++)
+            cout << diff[i][j] << " ";
+        cout << '\n';
+    }
+
+    double sum = diff[n - 1][0];
+    double v = (resR - x[n - 1]) / (x[1] - x[0]);
+
+    for (int i = 1; i < n; i++)
+        sum += (v_cal(v, i) * diff[n - 1][i]) / facto(i);
+
+    cout << "\nInterpolated value = " << sum << '\n';
+    return 0;
+}
+```
+
+## Sample Input:
+
+```cpp
+5
+24 24
+28 28
+32 32
+36 36
+40 40
+28.06
+30.19
+32.75
+34.94
+40
+33 33
+```
+
+## Sample Output:
+
+```cpp
+28.06 
+30.19 2.13 
+32.75 2.56 0.43 
+34.94 2.19 -0.37 -0.8 
+40 5.06 2.87 3.24 4.04 
+
+Interpolated value = 33.2747
 ```
 
 ## [Back to Top](#about-this-project)
