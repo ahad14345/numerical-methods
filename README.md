@@ -31,18 +31,18 @@ In this repository, different techniques are implemented to solve linear equatio
   - [Input](#sample-input-1)
   - [Output](#sample-output-1)
 
-- **LU Decomposition**
+- [**LU Decomposition**](#lu-decomposition)
 
-  - Theory
-  - Code
-  - Input
-  - Output
+  - [Theory](#theory-2)
+  - [Code](#code-2)
+  - [Input](#sample-input-2)
+  - [Output](#sample-output-2)
 
-- **Matrix Inversion**
-  - Theory
-  - Code
-  - Input
-  - Output
+- [**Matrix Inversion**](#matrix-inversion)
+  - [Theory](#theory-3)
+  - [Code](#code-3)
+  - [Input](#sample-input-3)
+  - [Output](#sample-output-3)
 
 ---
 
