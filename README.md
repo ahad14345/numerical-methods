@@ -372,6 +372,8 @@ x3 = -1
 
 ## [Back to Top](#about-this-project)
 
+---
+
 ## Gauss Jordan Method
 
 ### Theory
@@ -1042,7 +1044,7 @@ y(6) = 3.8
 
 Simpson’s 1/3 Rule is a numerical integration method used to approximate the definite integral of a function. The integral of f(x) from a to b is approximated as:
 
-Integral = (h/3) _ [ (y0 + yn) + 4_(y1 + y3 + y5 + ...) + 2\*(y2 + y4 + y6 + ...) ]
+Integral = (h/3) [ (y0 + yn) + 4(y1 + y3 + y5 + ...) + 2(y2 + y4 + y6 + ...) ]
 
 Where:
 
@@ -1133,7 +1135,7 @@ Integration of the function: 0.78539
 
 Simpson’s 3/8 Rule is a numerical integration method that approximates the integral of a function over an interval by fitting cubic polynomials through sets of four points. The integral of f(x) from a to b is approximated as:
 
-Integral = (3h/8) _ [ (y0 + yn) + 3(y1 + y2 + y4 + y5 + ...) + 2_(y3 + y6 + ...) ]
+Integral = (3h/8) [ (y0 + yn) + 3(y1 + y2 + y4 + y5 + ...) + 2(y3 + y6 + ...) ]
 
 Where:
 
