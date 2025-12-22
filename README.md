@@ -651,7 +651,7 @@ Compute sums: Calculate the sums of x, y, x*x, and x*y over all data points.
 
 Calculate coefficients:
 
-b = (n*Σ(x*y) - Σx*Σy) / (n*Σ(x^2) - (Σx)^2)
+b = (n*Σ(x*y) - Σx*Σy) / (n*Σ(x^2) - (Σx)^2)  
 a = (Σy / n) - b\*(Σx / n)
 
 Prediction: Once a and b are calculated, the line can predict y for any given x.
@@ -1048,11 +1048,11 @@ Let x0, x1, ..., xn be the x values with step size h. Let x be the point of inte
 
 First derivative:
 
-f'(x) = (1/h) _ [ Δy0 + ((2u - 1)/2) _ Δ²y0 + ((3u² - 6u + 2)/6) \* Δ³y0 + ... ]
+f'(x) = (1/h) [ Δy0 + ((2u - 1)/2) Δ²y0 + ((3u² - 6u + 2)/6) \* Δ³y0 + ... ]
 
 Second derivative:
 
-f''(x) = (1/h²) _ [ Δ²y0 + (u - 1) _ Δ³y0 + ... ]
+f''(x) = (1/h²) [ Δ²y0 + (u - 1) Δ³y0 + ... ]
 
 ### Algorithm / Steps (with Mathematical Expressions)
 
@@ -1179,11 +1179,11 @@ Let x0, x1, ..., xn be the x values with step size h. Let x be the point of inte
 
 First derivative:
 
-f'(x) = (1/h) _ [ ∇yn + ((2u + 1)/2) _ ∇²yn + ((3u² + 6u + 2)/6) \* ∇³yn + ... ]
+f'(x) = (1/h) [ ∇yn + ((2u + 1)/2) ∇²yn + ((3u² + 6u + 2)/6) \* ∇³yn + ... ]
 
 Second derivative:
 
-f''(x) = (1/h²) _ [ ∇²yn + (u + 1) _ ∇³yn + ... ]
+f''(x) = (1/h²) [ ∇²yn + (u + 1) ∇³yn + ... ]
 
 ### Algorithm / Steps (with Mathematical Expressions)
 
