@@ -68,11 +68,11 @@ In this repository, different techniques are implemented to solve linear equatio
   - [Input](#sample-input-6)
   - [Output](#sample-output-6)
 
-- **Secant Method**
-  - Theory
-  - Code
-  - Input
-  - Output
+- [**Secant Method**](#secant-method)
+  - [Theory](#theory-7)
+  - [Code](#code-7)
+  - [Input](#sample-input-7)
+  - [Output](#sample-output-7)
 
 ---
 
@@ -1447,6 +1447,171 @@ Iteration number: 1
 Bracket found: [1.65, 2.1]
 Root: 2.00003
 Iteration number: 5
+```
+
+## [Back to Top](#about-this-project)
+
+---
+## Secant Method
+
+### Theory
+The Secant Method is a numerical technique used to find an approximate root of a nonlinear equation:
+    f(x)=0
+
+It is similar to the Newton–Raphson Method, but does not require the derivative of the function. Instead of using a tangent, it uses a secant line (a straight line passing through two points on the curve).
+### Basic Idea:
+Start with two initial guesses x0​ and x1
+Draw a secant line through points (x0,f(x0)) and (𝑥1,𝑓(𝑥1))
+The point where this line intersects the x-axis gives the next approximation
+Repeat the process until convergence.
+The Secant Method converges faster than Bisection and False Position, but slightly slower than Newton–Raphson.
+### Algorithm
+
+1. Start
+2. Input function f(x), initial guesses x0,x1 tolerance 𝜀
+3. Compute:
+    x2 = x1 - f(x1)(x1-x0)/(f(x1)-f(x0))
+4. Check:
+    ∣x2	−x1∣<ε
+  If true, go to step 6
+  else, set: x0​ = x1,x1-x2​
+5. Repeat steps 3–4
+6. Output x2 as the root
+7.End
+
+## Code:
+
+```cpp
+#include <bits/stdc++.h>
+#include <cmath>
+using namespace std;
+
+double f(double x, vector<int> &cofs, int n)
+{
+    double sum {};
+    for (int i = 0; i <= n; i++)
+    {
+        sum += cofs[n - i] * pow(x, i);
+    }
+    return sum;
+}
+
+int main()
+{
+    freopen("input.txt", "r", stdin);
+    freopen("output.txt", "w", stdout);
+
+    double step = 0.45;
+    double E = 10e-3;
+
+    int n;
+    cin >> n;   // reading degree from input.txt
+
+    vector<int> cofs;
+
+    for (int i = 0; i <= n; i++)
+    {
+        int x;
+        cin >> x;   // reading coefficients from input.txt
+        cofs.push_back(x);
+    }
+
+    cout << "Number of degrees: " << n << '\n';
+
+    cout << "Coefficients: ";
+    for (auto i : cofs)
+    {
+        cout << i << " ";
+    }
+    cout << '\n';
+
+    cout << "Equation: ";
+    for (int i = 0; i <= n; i++)
+    {
+        if (cofs[i] == 0) continue;
+
+        int power = n - i;
+
+        if (i != 0 && cofs[i] > 0) cout << "+ ";
+
+        cout << cofs[i] << "x^" << power << " ";
+    }
+    cout << '\n';
+
+    double xmax = 1;
+    double mx = 0;
+
+    for (int i = 0; i <= n; i++)
+    {
+        if (mx < abs(cofs[i]))
+        {
+            mx = abs(cofs[i]);
+        }
+    }
+
+    xmax += abs(mx / cofs[n]);
+    cout << "Search range: [-" << xmax << ", " << xmax << "]\n";
+
+    double d1 = -xmax;
+    double d2 = xmax;
+
+    while (d1 < d2)
+    {
+        double x1 = d1;
+        double x2 = d1 + step;
+
+        if ((f(x1, cofs, n) * f(x2, cofs, n)) < 0)
+        {
+            cout << "Initial interval: " << x1 << " " << x2 << '\n';
+
+            double x0;
+            int i {};
+
+            while (true)
+            {
+                x0 = x1 - f(x1, cofs, n) * ((x2 - x1) / (f(x2, cofs, n) - f(x1, cofs, n)));
+
+                if (abs(x2 - x1) < E || abs(f(x0, cofs, n)) < E)
+                {
+                    cout << "Root: " << x0 << '\n';
+                    cout << "Iterations: " << i << '\n';
+                    break;
+                }
+
+                if ((f(x1, cofs, n) * f(x0, cofs, n)) < 0)
+                    x2 = x0;
+                else
+                    x1 = x0;
+
+                i++;
+            }
+            break;
+        }
+
+        d1 += step;
+    }
+
+    return 0;
+}
+```
+
+## Sample Input:
+
+```cpp
+3
+1 -6 11 -6
+```
+
+## Sample Output:
+
+```cpp
+Number of degrees: 3
+Coefficients: 1 -6 11 -6 
+Equation: 1x^3 -6x^2 + 11x^1 -6x^0 
+Search range: [-2.83333, 2.83333]
+Initial interval: 0.766667 1.21667
+Root: 1.00163
+Iterations: 3
 ```
 
 ## [Back to Top](#about-this-project)
