@@ -160,7 +160,7 @@ After this transformation, the solution is obtained directly from the last colum
 
 1. **Input the matrix**  
    Read the augmented matrix into a 2D array  
-   \[a[i][j], \quad i = 1 \dots n,\; j = 1 \dots n+1\]
+   a[i][j], i = 1....n; j = 1 .... n+1
 
 2. **Select the pivot element**  
    For each row i, choose the diagonal element:
@@ -168,14 +168,14 @@ After this transformation, the solution is obtained directly from the last colum
 
 3. **Make the pivot equal to 1**  
    Divide the entire row by the pivot element:
-   a[i][j] = \frac{a[i][j]}{pivot}, for all j
+   a[i][j] = a[i][j]/pivot, for all j
 
 4. **Make other elements of the column zero**  
    For all rows:
-   a[k][j] = a[k][j] - a[k][i] \times a[i][j]
+   a[k][j] = a[k][j] - a[k][i] * a[i][j]
 
 5. **Repeat for all rows**  
-   Continue steps 2 to 4 for \(i = 1 \dots n\) until the matrix becomes:
+   Continue steps 2 to 4 for i = 1.... n  until the matrix becomes:
    [I|X]
    where \(I\) is the identity matrix.
 
