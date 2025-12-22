@@ -621,6 +621,417 @@ Answer is: 2 3 -1
 
 ---
 
+# Curve Fitting
+
+---
+
+## Linear Regression
+
+### Theory
+
+Linear Regression fits a straight line through a set of data points such that the sum of the squares of the vertical differences between the observed values and the values predicted by the line is minimized. The line can be expressed as:
+
+y = a + b\*x
+
+Where:
+
+x is the independent variable
+
+y is the dependent variable
+
+a is the y-intercept of the line
+
+b is the slope of the line
+
+The process involves two main phases:
+
+Compute sums: Calculate the sums of x, y, x*x, and x*y over all data points.
+
+Calculate coefficients:
+
+b = (n*Σ(x*y) - Σx*Σy) / (n*Σ(x^2) - (Σx)^2)
+a = (Σy / n) - b\*(Σx / n)
+
+Prediction: Once a and b are calculated, the line can predict y for any given x.
+
+### Algorithm / Steps (with Mathematical Expressions)
+
+1. Input the data points x[i] and y[i] for i = 0 to n-1
+2. Compute Σx, Σy, Σ(x^2), Σ(xy)
+3. Compute the slope b and intercept a using the formulas
+4. Construct the linear equation y = a + bx
+5. Predict y for any given x using the linear equation
+
+---
+
+## Code:
+
+```cpp
+#include <bits/stdc++.h>
+using namespace std;
+
+int main()
+{
+    ifstream fin("input.txt");
+    ofstream fout("output.txt");
+    int n;
+    fin >> n;
+
+    vector<double> x(n), y(n);
+
+    for (int i = 0; i < n; i++)
+        fin >> x[i];
+
+    for (int i = 0; i < n; i++)
+        fin >> y[i];
+
+    double sumx = 0, sumy = 0, sumx2 = 0, sumxy = 0;
+
+    for (int i = 0; i < n; i++)
+    {
+        sumx  += x[i];
+        sumy  += y[i];
+        sumx2 += x[i] * x[i];
+        sumxy += x[i] * y[i];
+    }
+
+    double b = (n * sumxy - sumx * sumy) /
+               (n * sumx2 - sumx * sumx);
+
+    double a = (sumy / n) - b * (sumx / n);
+
+    fout << "a = " << a << '\n';
+    fout << "b = " << b << '\n';
+
+    fout << "Linear equation: y = "
+         << a << " + " << b << "x" << '\n';
+
+    double val;
+    fin >> val;
+
+    double ypred = a + b * val;
+    fout << "y(" << val << ") = " << ypred << '\n';
+
+    fin.close();
+    fout.close();
+
+    return 0;
+}
+```
+
+## Sample Input:
+
+```cpp
+5
+1 2 3 4 5
+2 4 5 4 5
+6
+```
+
+## Sample Output:
+
+```cpp
+a = 2.2
+b = 0.6
+Linear equation: y = 2.2 + 0.6x
+y(6) = 5.8
+```
+
+## [Back to Top](#about-this-project)
+
+---
+
+## Exponential Regression
+
+### Theory
+
+Exponential Regression fits data to an exponential model of the form:
+
+Y = A * e^(B*X)
+
+Where:
+
+(X) is the independent variable
+
+(Y) is the dependent variable
+
+A and B are constants
+
+The process involves two main phases:
+
+Linearization: Take the natural logarithm of Y to transform the equation into a linear form:
+
+ln(Y) = ln(A) + B\*X
+
+Apply Linear Regression: Use least squares on the transformed data to calculate ln(A) and B.
+
+Prediction: Once A and B are known, the model can predict Y for any X.
+
+### Algorithm / Steps (with Mathematical Expressions)
+
+1. Read the data points (X[i], Y[i]), i = 1....n
+
+2. Compute ln(Y[i]) for all i
+
+3. Compute sums  
+   ΣX, Σln(Y), ΣX\*ln(Y), ΣX²
+
+4. Solve for coefficients  
+   B = (nΣ(X\*ln(Y)) - ΣXΣln(Y)) / (nΣX² - (ΣX)²),  
+   ln(A) = (Σln(Y) - BΣX) / n,  
+   A = e^(ln(A))
+
+5. Obtain the solution and display the regression equation: Y = A * e^(B*X)
+
+---
+
+## Code:
+
+```cpp
+#include <bits/stdc++.h>
+#include <cmath>
+using namespace std;
+
+double f(double x)
+{
+    return exp(x / 4.0);
+}
+
+int main()
+{
+    ifstream fin("input.txt");
+    ofstream fout("output.txt");
+
+    int n;
+    fin >> n;
+
+    vector<double> x(n), y(n);
+
+    double sumfx = 0, sumy = 0, sumfx2 = 0, sumfxy = 0;
+
+    for (int i = 0; i < n; i++)
+        fin >> x[i];
+    for (int i = 0; i < n; i++)
+        fin >> y[i];
+
+    for (int i = 0; i < n; i++)
+    {
+        double fx = f(x[i]);
+        sumfx  += fx;
+        sumy   += y[i];
+        sumfx2 += fx * fx;
+        sumfxy += fx * y[i];
+    }
+
+    double b = (n * sumfxy - sumfx * sumy) /
+               (n * sumfx2 - sumfx * sumfx);
+
+    double a = (sumy / n) - b * (sumfx / n);
+
+    fout << sumfx << " " << sumy << " " << sumfxy << " " << sumfx2 << '\n';
+
+    fout << "y = " << fixed << setprecision(3) << a
+         << " + " << fixed << setprecision(3) << b
+         << " e^(z/4)" << '\n';
+
+    fout << "y(6) = " << a + b * f(6) << '\n';
+
+    fin.close();
+    fout.close();
+
+    return 0;
+}
+```
+
+## Sample Input:
+
+```cpp
+5
+1 2 3 4 5
+2 4 5 4 5
+```
+
+## Sample Output:
+
+```cpp
+11.2584 20 48.0728 28.4202
+y = 1.771 + 0.990 e^(z/4)
+y(6) = 6.208
+```
+
+## [Back to Top](#about-this-project)
+
+---
+
+## Polynomial Regression
+
+### Theory
+
+Polynomial Regression fits a polynomial of degree n to a set of data points using the least squares method. The polynomial can be represented as:
+
+Y = a0 + a1X + a2X² + ... + an\*X^n
+
+Where:
+
+(X) is the independent variable
+
+(Y) is the dependent variable
+
+a0, a1, ..., an are coefficients
+
+The process involves two main phases:
+
+Construct normal equations: Using least squares, form n+1 equations based on the sum of powers of X and products with Y.
+
+Solve for coefficients: Solve the system of linear equations to find a0, a1, ..., an.
+
+Prediction: Use the polynomial to predict Y for any X.
+
+### Algorithm / Steps (with Mathematical Expressions)
+
+1. Read the data points (X[i], Y[i]), i = 1....n
+
+2. Compute ΣX^k and Σ(X^k \* Y) for k = 0 to 2n
+
+3. Set up equations ΣY = a0ΣX^0 + a1ΣX^1 + ... + an\*ΣX^n and so on
+
+4. Solve the linear system using methods like Gauss Elimination
+
+5. Display the polynomial regression equation: Y = a0 + a1X + a2X² + ... + an\*X^n
+
+---
+
+## Code:
+
+```cpp
+#include <bits/stdc++.h>
+using namespace std;
+
+int main()
+{
+    ifstream fin("input.txt");
+    ofstream fout("output.txt");
+    int n;
+    fin >> n;
+
+    int deg;
+    fin >> deg;
+
+    vector<double> x(n), y(n);
+
+    for (int i = 0; i < n; i++)
+        fin >> x[i];
+
+    for (int i = 0; i < n; i++)
+        fin >> y[i];
+
+    vector<double> sumPow(2 * deg + 1, 0);
+    for (int i = 0; i < n; i++)
+    {
+        double xi = 1;
+        for (int j = 0; j <= 2 * deg; j++)
+        {
+            sumPow[j] += xi;
+            xi *= x[i];
+        }
+    }
+
+    vector<double> sumXY(deg + 1, 0);
+    for (int i = 0; i < n; i++)
+    {
+        double xi = 1;
+        for (int j = 0; j <= deg; j++)
+        {
+            sumXY[j] += xi * y[i];
+            xi *= x[i];
+        }
+    }
+
+    vector<vector<double>> matt(deg + 1, vector<double>(deg + 2, 0));
+    for (int i = 0; i <= deg; i++)
+    {
+        for (int j = 0; j <= deg; j++)
+        {
+            matt[i][j] = sumPow[i + j];
+        }
+        matt[i][deg + 1] = sumXY[i];
+    }
+
+    for (int i = 0; i <= deg; i++)
+    {
+        for (int j = i + 1; j <= deg; j++)
+        {
+            if (abs(matt[j][i]) > abs(matt[i][i]))
+                swap(matt[i], matt[j]);
+        }
+        for (int j = i + 1; j <= deg; j++)
+        {
+            double rt = matt[j][i] / matt[i][i];
+            for (int k = i; k <= deg + 1; k++)
+            {
+                matt[j][k] -= rt * matt[i][k];
+            }
+        }
+    }
+
+    vector<double> a(deg + 1, 0);
+    for (int i = deg; i >= 0; i--)
+    {
+        a[i] = matt[i][deg + 1];
+        for (int j = i + 1; j <= deg; j++)
+        {
+            a[i] -= matt[i][j] * a[j];
+        }
+        a[i] /= matt[i][i];
+    }
+
+    for (int i = 0; i <= deg; i++)
+    {
+        fout << "a" << i << " = " << a[i] << '\n';
+    }
+
+    // Predict
+    double val;
+    fin >> val;
+
+    double ypred = 0;
+    for (int i = 0; i <= deg; i++)
+    {
+        ypred += a[i] * pow(val, i);
+    }
+
+    fout << "y(" << val << ") = " << ypred << '\n';
+
+    fin.close();
+    fout.close();
+
+    return 0;
+}
+```
+
+## Sample Input:
+
+```cpp
+5
+2
+1 2 3 4 5
+2 4 5 4 5
+6
+```
+
+## Sample Output:
+
+```cpp
+a0 = 0.2
+a1 = 2.31429
+a2 = -0.285714
+y(6) = 3.8
+```
+
+## [Back to Top](#about-this-project)
+
+---
+
 # Numerical Integration
 
 ---
@@ -801,432 +1212,6 @@ Number of intervals: 9
 Step size h: 0.5
 
 Integration of the function: 6.329
-```
-
-## [Back to Top](#about-this-project)
-
----
-
-# Curve Fitting
-
----
-
-## Linear Regression
-
-### Theory
-
-Linear Regression fits a straight line to a set of data points such that the line minimizes the sum of the squares of the vertical distances (errors) between the points and the line. The line can be represented as:
-
-Y = mX + C
-
-Where:
-
-(X) is the independent variable
-
-(Y) is the dependent variable
-
-m is the slope of the line
-
-C is the y-intercept
-
-The process involves two main phases:
-
-Compute coefficients: Using the least squares method, calculate m and C by solving the normal equations:
-
-∑𝑌=𝑛𝐶+𝑚∑𝑋
-∑Y=nC+m∑X
-∑𝑋𝑌=𝐶∑𝑋+𝑚∑𝑋2
-∑XY=C∑X+m∑X2
-
-Prediction: Once m and C are known, the line can predict Y for any given X.
-
-### Algorithm / Steps (with Mathematical Expressions)
-
-1. Input the data
-   Read the data points (X[i], Y[i]), i = 1....n
-
-2. Compute sums
-   Compute ΣX, ΣY, ΣXY, ΣX²
-
-3. Solve for coefficients
-   m = (nΣXY - ΣXΣY) / (nΣX² - (ΣX)²)
-   C = (ΣY - mΣX) / n
-
-4. Obtain the solution
-   Display the regression line: Y = mX + C
-
----
-
-## Code:
-
-```cpp
-#include <bits/stdc++.h>
-using namespace std;
-
-int main()
-{
-    ifstream fin("input.txt");
-    ofstream fout("output.txt");
-    int n;
-    fin >> n;
-
-    vector<double> x(n), y(n);
-
-    for (int i = 0; i < n; i++)
-        fin >> x[i];
-
-    for (int i = 0; i < n; i++)
-        fin >> y[i];
-
-    double sumx = 0, sumy = 0, sumx2 = 0, sumxy = 0;
-
-    for (int i = 0; i < n; i++)
-    {
-        sumx  += x[i];
-        sumy  += y[i];
-        sumx2 += x[i] * x[i];
-        sumxy += x[i] * y[i];
-    }
-
-    double b = (n * sumxy - sumx * sumy) /
-               (n * sumx2 - sumx * sumx);
-
-    double a = (sumy / n) - b * (sumx / n);
-
-    fout << "a = " << a << '\n';
-    fout << "b = " << b << '\n';
-
-    fout << "Linear equation: y = "
-         << a << " + " << b << "x" << '\n';
-
-    double val;
-    fin >> val;
-
-    double ypred = a + b * val;
-    fout << "y(" << val << ") = " << ypred << '\n';
-
-    fin.close();
-    fout.close();
-
-    return 0;
-}
-```
-
-## Sample Input:
-
-```cpp
-5
-1 2 3 4 5
-2 4 5 4 5
-6
-```
-
-## Sample Output:
-
-```cpp
-a = 2.2
-b = 0.6
-Linear equation: y = 2.2 + 0.6x
-y(6) = 5.8
-```
-
-## [Back to Top](#about-this-project)
-
----
-
-## Exponential Regression
-
-### Theory
-
-Exponential Regression fits data to an exponential model of the form:
-
-Y = A * e^(B*X)
-
-Where:
-
-(X) is the independent variable
-
-(Y) is the dependent variable
-
-A and B are constants
-
-The process involves two main phases:
-
-Linearization: Take the natural logarithm of Y to transform the equation into a linear form:
-
-ln(Y) = ln(A) + B\*X
-
-Apply Linear Regression: Use least squares on the transformed data to calculate ln(A) and B.
-
-Prediction: Once A and B are known, the model can predict Y for any X.
-
-### Algorithm / Steps (with Mathematical Expressions)
-
-1. Input the data
-   Read the data points (X[i], Y[i]), i = 1....n
-
-2. Linearize the data
-   Compute ln(Y[i]) for all i
-
-3. Compute sums
-   ΣX, Σln(Y), ΣX\*ln(Y), ΣX²
-
-4. Solve for coefficients
-   B = (nΣ(X\*ln(Y)) - ΣXΣln(Y)) / (nΣX² - (ΣX)²),
-   ln(A) = (Σln(Y) - BΣX) / n,
-   A = e^(ln(A))
-
-5. Obtain the solution and
-   display the regression equation: Y = A * e^(B*X)
-
----
-
-## Code:
-
-```cpp
-#include <bits/stdc++.h>
-#include <cmath>
-using namespace std;
-
-double f(double x)
-{
-    return exp(x / 4.0);
-}
-
-int main()
-{
-    ifstream fin("input.txt");
-    ofstream fout("output.txt");
-
-    int n;
-    fin >> n;
-
-    vector<double> x(n), y(n);
-
-    double sumfx = 0, sumy = 0, sumfx2 = 0, sumfxy = 0;
-
-    for (int i = 0; i < n; i++)
-        fin >> x[i];
-    for (int i = 0; i < n; i++)
-        fin >> y[i];
-
-    for (int i = 0; i < n; i++)
-    {
-        double fx = f(x[i]);
-        sumfx  += fx;
-        sumy   += y[i];
-        sumfx2 += fx * fx;
-        sumfxy += fx * y[i];
-    }
-
-    double b = (n * sumfxy - sumfx * sumy) /
-               (n * sumfx2 - sumfx * sumfx);
-
-    double a = (sumy / n) - b * (sumfx / n);
-
-    fout << sumfx << " " << sumy << " " << sumfxy << " " << sumfx2 << '\n';
-
-    fout << "y = " << fixed << setprecision(3) << a
-         << " + " << fixed << setprecision(3) << b
-         << " e^(z/4)" << '\n';
-
-    fout << "y(6) = " << a + b * f(6) << '\n';
-
-    fin.close();
-    fout.close();
-
-    return 0;
-}
-```
-
-## Sample Input:
-
-```cpp
-5
-1 2 3 4 5
-2 4 5 4 5
-```
-
-## Sample Output:
-
-```cpp
-11.2584 20 48.0728 28.4202
-y = 1.771 + 0.990 e^(z/4)
-y(6) = 6.208
-```
-
-## [Back to Top](#about-this-project)
-
----
-
-## Polynomial Regression
-
-### Theory
-
-Polynomial Regression fits a polynomial of degree n to a set of data points using the least squares method. The polynomial can be represented as:
-
-Y = a0 + a1X + a2X² + ... + an\*X^n
-
-Where:
-
-(X) is the independent variable
-
-(Y) is the dependent variable
-
-a0, a1, ..., an are coefficients
-
-The process involves two main phases:
-
-Construct normal equations: Using least squares, form n+1 equations based on the sum of powers of X and products with Y.
-
-Solve for coefficients: Solve the system of linear equations to find a0, a1, ..., an.
-
-Prediction: Use the polynomial to predict Y for any X.
-
-### Algorithm / Steps (with Mathematical Expressions)
-
-1. Input the data
-   Read the data points (X[i], Y[i]), i = 1....n
-
-2. Compute sums
-   Compute ΣX^k and Σ(X^k \* Y) for k = 0 to 2n
-
-3. Form normal equations
-   Set up equations ΣY = a0ΣX^0 + a1ΣX^1 + ... + an\*ΣX^n and so on
-
-4. Solve for coefficients
-   Solve the linear system using methods like Gauss Elimination
-
-5. Obtain the solution
-   Display the polynomial regression equation: Y = a0 + a1X + a2X² + ... + an\*X^n
-
----
-
-## Code:
-
-```cpp
-#include <bits/stdc++.h>
-using namespace std;
-
-int main()
-{
-    ifstream fin("input.txt");
-    ofstream fout("output.txt");
-    int n;
-    fin >> n;
-
-    int deg;
-    fin >> deg;
-
-    vector<double> x(n), y(n);
-
-    for (int i = 0; i < n; i++)
-        fin >> x[i];
-
-    for (int i = 0; i < n; i++)
-        fin >> y[i];
-
-    vector<double> sumPow(2 * deg + 1, 0);
-    for (int i = 0; i < n; i++)
-    {
-        double xi = 1;
-        for (int j = 0; j <= 2 * deg; j++)
-        {
-            sumPow[j] += xi;
-            xi *= x[i];
-        }
-    }
-
-    vector<double> sumXY(deg + 1, 0);
-    for (int i = 0; i < n; i++)
-    {
-        double xi = 1;
-        for (int j = 0; j <= deg; j++)
-        {
-            sumXY[j] += xi * y[i];
-            xi *= x[i];
-        }
-    }
-
-    vector<vector<double>> matt(deg + 1, vector<double>(deg + 2, 0));
-    for (int i = 0; i <= deg; i++)
-    {
-        for (int j = 0; j <= deg; j++)
-        {
-            matt[i][j] = sumPow[i + j];
-        }
-        matt[i][deg + 1] = sumXY[i];
-    }
-
-    for (int i = 0; i <= deg; i++)
-    {
-        for (int j = i + 1; j <= deg; j++)
-        {
-            if (abs(matt[j][i]) > abs(matt[i][i]))
-                swap(matt[i], matt[j]);
-        }
-        for (int j = i + 1; j <= deg; j++)
-        {
-            double rt = matt[j][i] / matt[i][i];
-            for (int k = i; k <= deg + 1; k++)
-            {
-                matt[j][k] -= rt * matt[i][k];
-            }
-        }
-    }
-
-    vector<double> a(deg + 1, 0);
-    for (int i = deg; i >= 0; i--)
-    {
-        a[i] = matt[i][deg + 1];
-        for (int j = i + 1; j <= deg; j++)
-        {
-            a[i] -= matt[i][j] * a[j];
-        }
-        a[i] /= matt[i][i];
-    }
-
-    for (int i = 0; i <= deg; i++)
-    {
-        fout << "a" << i << " = " << a[i] << '\n';
-    }
-
-    // Predict
-    double val;
-    fin >> val;
-
-    double ypred = 0;
-    for (int i = 0; i <= deg; i++)
-    {
-        ypred += a[i] * pow(val, i);
-    }
-
-    fout << "y(" << val << ") = " << ypred << '\n';
-
-    fin.close();
-    fout.close();
-
-    return 0;
-}
-```
-
-## Sample Input:
-
-```cpp
-5
-2
-1 2 3 4 5
-2 4 5 4 5
-6
-```
-
-## Sample Output:
-
-```cpp
-a0 = 0.2
-a1 = 2.31429
-a2 = -0.285714
-y(6) = 3.8
 ```
 
 ## [Back to Top](#about-this-project)
