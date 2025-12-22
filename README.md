@@ -119,14 +119,14 @@ In this repository, different techniques are implemented to solve linear equatio
 
 ### 5. [Numerical Differentiation](#numerical-differentiation)
 
-- [**Newton's Forward Difference**](#newton's-forward-difference)
+- [**Newton's Forward Difference**](#newtons-forward-difference)
 
   - [Theory](#theory-13)
   - [Code](#code-13)
   - [Input](#sample-input-13)
   - [Output](#sample-output-13)
 
-- [**Newton's Backward Difference**](#newton's-backward-difference)
+- [**Newton's Backward Difference**](#newtons-backward-difference)
   - [Theory](#theory-14)
   - [Code](#code-14)
   - [Input](#sample-input-14)
@@ -136,14 +136,14 @@ In this repository, different techniques are implemented to solve linear equatio
 
 ### 6. [Numerical Integration](#numerical-integration)
 
-- [**Simpson’s 1/3 Rule**](#simpson's-13-rule)
+- [**Simpson’s 1/3 Rule**](#simpsons-13-rule)
 
   - [Theory](#theory-15)
   - [Code](#code-15)
   - [Input](#sample-input-15)
   - [Output](#sample-output-15)
 
-- [**Simpson’s 3/8 Rule**](#simpson’s-38-rule)
+- [**Simpson’s 3/8 Rule**](#simpsons-38-rule)
   - [Theory](#theory-16)
   - [Code](#code-16)
   - [Input](#sample-input-16)
