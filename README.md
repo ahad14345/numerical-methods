@@ -1,10 +1,14 @@
 # Course CSE 2208 – Numerical Methods Lab
+
 This is the repo for the project of CSE 2209 (Numerical Methods Laboratory)
-Our group members are - 
-  1. Sabyasachi Sadhu Turjo - 2207093
-  2. Bikon Ghosh - 2207100
-  3. Sheikh MD Ahad Al Nabil - 2207120
+Our group members are -
+
+1. Sabyasachi Sadhu Turjo - 2207093
+2. Bikon Ghosh - 2207100
+3. Sheikh MD Ahad Al Nabil - 2207120
+
 ## About This Project
+
 This project is a collection of basic numerical methods written in C++ for the Numerical Methods Lab course. Numerical methods are used when mathematical problems are too difficult to solve exactly, so approximate solutions are needed.
 
 In this repository, different techniques are implemented to solve linear equations, non-linear equations, interpolation, numerical differentiation, numerical integration, curve fitting, and ordinary differential equations. Each method includes its theory, source code, and sample input and output to help understand how it works.
@@ -12,19 +16,23 @@ In this repository, different techniques are implemented to solve linear equatio
 ## Table of Contents
 
 ### 1. [Linear Equations](#linear-equations)
+
 - [**Gauss Elimination**](#gauss-elimination-method)
+
   - [Theory](#theory)
   - [Code](#code)
   - [Input](#sample-input)
   - [Output](#sample-output)
 
 - [**Gauss Jordan Elimination**](#gauss-jordan-method)
+
   - [Theory](#theory-1)
   - [Code](#code-1)
   - [Input](#sample-input-1)
   - [Output](#sample-output-1)
 
 - **LU Decomposition**
+
   - Theory
   - Code
   - Input
@@ -35,21 +43,27 @@ In this repository, different techniques are implemented to solve linear equatio
   - Code
   - Input
   - Output
----    
+
+---
+
 ### 2.Non-Linear Equations
+
 - **Bisection Method**
+
   - Theory
   - Code
   - Input
   - Output
 
 - **False Position Method**
+
   - Theory
   - Code
   - Input
   - Output
 
 - **Newton Raphson Method**
+
   - Theory
   - Code
   - Input
@@ -60,9 +74,13 @@ In this repository, different techniques are implemented to solve linear equatio
   - Code
   - Input
   - Output
----    
+
+---
+
 ### 3. Interpolation and Approximation
+
 - **Newton Forward Interpolation**
+
   - Theory
   - Code
   - Input
@@ -73,15 +91,20 @@ In this repository, different techniques are implemented to solve linear equatio
   - Code
   - Input
   - Output
----    
+
+---
+
 ### 4. Curve Fitting
+
 - **Exponential Regression**
+
   - Theory
   - Code
   - Input
   - Output
 
 - **Linear Regression**
+
   - Theory
   - Code
   - Input
@@ -91,10 +114,14 @@ In this repository, different techniques are implemented to solve linear equatio
   - Theory
   - Code
   - Input
-  - Output 
----    
+  - Output
+
+---
+
 ### 5. Numerical Differentiation
+
 - **Newton Forward Difference**
+
   - Theory
   - Code
   - Input
@@ -105,9 +132,13 @@ In this repository, different techniques are implemented to solve linear equatio
   - Code
   - Input
   - Output
+
 ---
+
 ### 6. Numerical Integration
+
 - **Simpson’s 1/3 Rule**
+
   - Theory
   - Code
   - Input
@@ -118,7 +149,9 @@ In this repository, different techniques are implemented to solve linear equatio
   - Code
   - Input
   - Output
+
 ---
+
 ### 7. Ordinary Differential Equations
 
 - **Runge-Kutta Method (4th Order)**
@@ -128,11 +161,14 @@ In this repository, different techniques are implemented to solve linear equatio
   - Output
 
 ---
+
 # Linear Equations
+
 ---
+
 ## Gauss Elimination Method
 
-### Theory 
+### Theory
 
 The Gauss Elimination method transforms a system of linear equations into an Upper Triangular Matrix form. This allows us to find the values of the unknowns (x1,x2,x3....xn) using Back Substitution.
 A system of linear equations can be written as:
@@ -140,18 +176,16 @@ A system of linear equations can be written as:
 AX = B
 
 Where:
-- \(A\) is the coefficient matrix  
-- \(X\) is the matrix of unknown variables  
-- \(B\) is the constant matrix  
 
+- \(A\) is the coefficient matrix
+- \(X\) is the matrix of unknown variables
+- \(B\) is the constant matrix
 
 The process involves two main phases:
 
 Forward Elimination: Using row operations to make all elements below the main diagonal zero.
 
 Back Substitution: Starting from the last equation (which now has only one unknown), we solve for each variable one by one.
-
-
 
 ### Algorithm / Steps (with Mathematical Expressions)
 
@@ -169,18 +203,20 @@ Back Substitution: Starting from the last equation (which now has only one unkno
 
 4. **Make other elements of the column zero**  
    For all rows:
-   a[k][j] = a[k][j] - a[k][i] * a[i][j]
+   a[k][j] = a[k][j] - a[k][i] \* a[i][j]
 
 5. **Back Substitution**
    Check if a[n][n]=0; if yes, the system may have no unique solution.
    if no,Initialize x[n]= a[n][n+1] / a[n][n].For i = n-1 down to 1, Sum = 0.
    For j = i+1 to n.Sum = Sum + a[i][j] X x[j].x[i] = (a[i][n+1] - Sum) / a[i][i].
 
-7. **Obtain the solution**  
+6. **Obtain the solution**  
    Display the values of x1,x2....,xn
 
 ---
+
 ## Code:
+
 ```cpp
 #include <bits/stdc++.h>
 using namespace std;
@@ -295,6 +331,7 @@ int main()
     return 0;
 }
 ```
+
 ## Sample Input:
 
 ```cpp
@@ -310,21 +347,21 @@ n
 ```cpp
 After step 1:
 
-2 1 -1 8 
-0 0.5 0.5 1 
--2 1 2 -3 
+2 1 -1 8
+0 0.5 0.5 1
+-2 1 2 -3
 
 After step 2:
 
-2 1 -1 8 
-0 0.5 0.5 1 
-0 2 1 5 
+2 1 -1 8
+0 0.5 0.5 1
+0 2 1 5
 
 After step 3:
 
-2 1 -1 8 
-0 0.5 0.5 1 
-0 0 -1 1 
+2 1 -1 8
+0 0.5 0.5 1
+0 0 -1 1
 
 The system has unique solutions
 
@@ -332,11 +369,12 @@ x1 = 2
 x2 = 3
 x3 = -1
 ```
-[Back to Top](#about-this-project)
----
+
+## [Back to Top](#about-this-project)
+
 ## Gauss Jordan Method
 
-### Theory 
+### Theory
 
 The Gauss–Jordan method is a simple and systematic technique used to solve a system of linear equations. In numerical methods, the equations are represented in the form of an augmented matrix, which is stored as a 2D array in programming languages like **C++**.
 
@@ -345,10 +383,10 @@ A system of linear equations can be written as:
 AX = B
 
 Where:
-- \(A\) is the coefficient matrix  
-- \(X\) is the matrix of unknown variables  
-- \(B\) is the constant matrix  
 
+- \(A\) is the coefficient matrix
+- \(X\) is the matrix of unknown variables
+- \(B\) is the constant matrix
 
 The goal of the Gauss–Jordan method is to convert this matrix into **reduced row-echelon form**, where:
 
@@ -376,10 +414,10 @@ After this transformation, the solution is obtained directly from the last colum
 
 4. **Make other elements of the column zero**  
    For all rows:
-   a[k][j] = a[k][j] - a[k][i] * a[i][j]
+   a[k][j] = a[k][j] - a[k][i] \* a[i][j]
 
 5. **Repeat for all rows**  
-   Continue steps 2 to 4 for i = 1.... n  until the matrix becomes:
+   Continue steps 2 to 4 for i = 1.... n until the matrix becomes:
    [I|X]
    where \(I\) is the identity matrix.
 
@@ -389,7 +427,9 @@ After this transformation, the solution is obtained directly from the last colum
    x[i] = a[i][n+1]
 
 ---
+
 ## Code:
+
 ```cpp
 #include <bits/stdc++.h>
 using namespace std;
@@ -436,7 +476,7 @@ int main()
             a[i][j] /= temp;
         }
 
-        
+
         for (int j = i + 1; j < n; j++)
         {
             double rt = a[j][i];
@@ -454,7 +494,7 @@ int main()
             cout << '\n';
         }
 
-        
+
         for (int j = i - 1; j >= 0; j--)
         {
             double rt = a[j][i];
@@ -529,6 +569,7 @@ int main()
     return 0;
 }
 ```
+
 ## Sample Input:
 
 ```cpp
@@ -542,42 +583,466 @@ int main()
 
 ```cpp
 After step 1:
-1 0.5 -0.5 4 
-0 0.5 0.5 1 
--2 1 2 -3 
+1 0.5 -0.5 4
+0 0.5 0.5 1
+-2 1 2 -3
 
 After step 2:
-1 0.5 -0.5 4 
-0 0.5 0.5 1 
-0 2 1 5 
+1 0.5 -0.5 4
+0 0.5 0.5 1
+0 2 1 5
 
 After step 3:
-1 0.5 -0.5 4 
-0 1 1 2 
-0 0 -1 1 
+1 0.5 -0.5 4
+0 1 1 2
+0 0 -1 1
 
 After step 4:
-1 0 -1 3 
-0 1 1 2 
-0 0 -1 1 
+1 0 -1 3
+0 1 1 2
+0 0 -1 1
 
 After step 5:
-1 0 -1 3 
-0 1 0 3 
--0 -0 1 -1 
+1 0 -1 3
+0 1 0 3
+-0 -0 1 -1
 
 After step 6:
-1 0 0 2 
-0 1 0 3 
--0 -0 1 -1 
+1 0 0 2
+0 1 0 3
+-0 -0 1 -1
 
 The system has unique solutions
 
-Answer is: 2 3 -1 
+Answer is: 2 3 -1
 ```
-[Back to Top](#about-this-project)
+
+## [Back to Top](#about-this-project)
+
 ---
 
+# Curve Fitting
 
+---
 
+## Linear Regression
 
+### Theory
+
+Linear Regression fits a straight line to a set of data points such that the line minimizes the sum of the squares of the vertical distances (errors) between the points and the line. The line can be represented as:
+
+Y = mX + C
+
+Where:
+
+(X) is the independent variable
+
+(Y) is the dependent variable
+
+m is the slope of the line
+
+C is the y-intercept
+
+The process involves two main phases:
+
+Compute coefficients: Using the least squares method, calculate m and C by solving the normal equations:
+
+∑𝑌=𝑛𝐶+𝑚∑𝑋
+∑Y=nC+m∑X
+∑𝑋𝑌=𝐶∑𝑋+𝑚∑𝑋2
+∑XY=C∑X+m∑X2
+
+Prediction: Once m and C are known, the line can predict Y for any given X.
+
+### Algorithm / Steps (with Mathematical Expressions)
+
+1. Input the data
+   Read the data points (X[i], Y[i]), i = 1....n
+
+2. Compute sums
+   Compute ΣX, ΣY, ΣXY, ΣX²
+
+3. Solve for coefficients
+   m = (nΣXY - ΣXΣY) / (nΣX² - (ΣX)²)
+   C = (ΣY - mΣX) / n
+
+4. Obtain the solution
+   Display the regression line: Y = mX + C
+
+---
+
+## Code:
+
+```cpp
+#include <bits/stdc++.h>
+using namespace std;
+
+int main()
+{
+    ifstream fin("input.txt");
+    ofstream fout("output.txt");
+    int n;
+    fin >> n;
+
+    vector<double> x(n), y(n);
+
+    for (int i = 0; i < n; i++)
+        fin >> x[i];
+
+    for (int i = 0; i < n; i++)
+        fin >> y[i];
+
+    double sumx = 0, sumy = 0, sumx2 = 0, sumxy = 0;
+
+    for (int i = 0; i < n; i++)
+    {
+        sumx  += x[i];
+        sumy  += y[i];
+        sumx2 += x[i] * x[i];
+        sumxy += x[i] * y[i];
+    }
+
+    double b = (n * sumxy - sumx * sumy) /
+               (n * sumx2 - sumx * sumx);
+
+    double a = (sumy / n) - b * (sumx / n);
+
+    fout << "a = " << a << '\n';
+    fout << "b = " << b << '\n';
+
+    fout << "Linear equation: y = "
+         << a << " + " << b << "x" << '\n';
+
+    double val;
+    fin >> val;
+
+    double ypred = a + b * val;
+    fout << "y(" << val << ") = " << ypred << '\n';
+
+    fin.close();
+    fout.close();
+
+    return 0;
+}
+```
+
+## Sample Input:
+
+```cpp
+5
+1 2 3 4 5
+2 4 5 4 5
+6
+```
+
+## Sample Output:
+
+```cpp
+a = 2.2
+b = 0.6
+Linear equation: y = 2.2 + 0.6x
+y(6) = 5.8
+```
+
+## [Back to Top](#about-this-project)
+
+---
+
+## Exponential Regression
+
+### Theory
+
+Exponential Regression fits data to an exponential model of the form:
+
+Y = A * e^(B*X)
+
+Where:
+
+(X) is the independent variable
+
+(Y) is the dependent variable
+
+A and B are constants
+
+The process involves two main phases:
+
+Linearization: Take the natural logarithm of Y to transform the equation into a linear form:
+
+ln(Y) = ln(A) + B\*X
+
+Apply Linear Regression: Use least squares on the transformed data to calculate ln(A) and B.
+
+Prediction: Once A and B are known, the model can predict Y for any X.
+
+### Algorithm / Steps (with Mathematical Expressions)
+
+1. Input the data
+   Read the data points (X[i], Y[i]), i = 1....n
+
+2. Linearize the data
+   Compute ln(Y[i]) for all i
+
+3. Compute sums
+   ΣX, Σln(Y), ΣX\*ln(Y), ΣX²
+
+4. Solve for coefficients
+   B = (nΣ(X\*ln(Y)) - ΣXΣln(Y)) / (nΣX² - (ΣX)²)
+   ln(A) = (Σln(Y) - BΣX) / n
+   A = e^(ln(A))
+
+5. Obtain the solution
+   Display the regression equation: Y = A * e^(B*X)
+
+---
+
+## Code:
+
+```cpp
+#include <bits/stdc++.h>
+#include <cmath>
+using namespace std;
+
+double f(double x)
+{
+    return exp(x / 4.0);
+}
+
+int main()
+{
+    ifstream fin("input.txt");
+    ofstream fout("output.txt");
+
+    int n;
+    fin >> n;
+
+    vector<double> x(n), y(n);
+
+    double sumfx = 0, sumy = 0, sumfx2 = 0, sumfxy = 0;
+
+    for (int i = 0; i < n; i++)
+        fin >> x[i];
+    for (int i = 0; i < n; i++)
+        fin >> y[i];
+
+    for (int i = 0; i < n; i++)
+    {
+        double fx = f(x[i]);
+        sumfx  += fx;
+        sumy   += y[i];
+        sumfx2 += fx * fx;
+        sumfxy += fx * y[i];
+    }
+
+    double b = (n * sumfxy - sumfx * sumy) /
+               (n * sumfx2 - sumfx * sumfx);
+
+    double a = (sumy / n) - b * (sumfx / n);
+
+    fout << sumfx << " " << sumy << " " << sumfxy << " " << sumfx2 << '\n';
+
+    fout << "y = " << fixed << setprecision(3) << a
+         << " + " << fixed << setprecision(3) << b
+         << " e^(z/4)" << '\n';
+
+    fout << "y(6) = " << a + b * f(6) << '\n';
+
+    fin.close();
+    fout.close();
+
+    return 0;
+}
+```
+
+## Sample Input:
+
+```cpp
+5
+1 2 3 4 5
+2 4 5 4 5
+```
+
+## Sample Output:
+
+```cpp
+11.2584 20 48.0728 28.4202
+y = 1.771 + 0.990 e^(z/4)
+y(6) = 6.208
+```
+
+## [Back to Top](#about-this-project)
+
+---
+
+## Polynomial Regression
+
+### Theory
+
+Polynomial Regression fits a polynomial of degree n to a set of data points using the least squares method. The polynomial can be represented as:
+
+Y = a0 + a1X + a2X² + ... + an\*X^n
+
+Where:
+
+(X) is the independent variable
+
+(Y) is the dependent variable
+
+a0, a1, ..., an are coefficients
+
+The process involves two main phases:
+
+Construct normal equations: Using least squares, form n+1 equations based on the sum of powers of X and products with Y.
+
+Solve for coefficients: Solve the system of linear equations to find a0, a1, ..., an.
+
+Prediction: Use the polynomial to predict Y for any X.
+
+### Algorithm / Steps (with Mathematical Expressions)
+
+1. Input the data
+   Read the data points (X[i], Y[i]), i = 1....n
+
+2. Compute sums
+   Compute ΣX^k and Σ(X^k \* Y) for k = 0 to 2n
+
+3. Form normal equations
+   Set up equations ΣY = a0ΣX^0 + a1ΣX^1 + ... + an\*ΣX^n and so on
+
+4. Solve for coefficients
+   Solve the linear system using methods like Gauss Elimination
+
+5. Obtain the solution
+   Display the polynomial regression equation: Y = a0 + a1X + a2X² + ... + an\*X^n
+
+---
+
+## Code:
+
+```cpp
+#include <bits/stdc++.h>
+using namespace std;
+
+int main()
+{
+    ifstream fin("input.txt");
+    ofstream fout("output.txt");
+    int n;
+    fin >> n;
+
+    int deg;
+    fin >> deg;
+
+    vector<double> x(n), y(n);
+
+    for (int i = 0; i < n; i++)
+        fin >> x[i];
+
+    for (int i = 0; i < n; i++)
+        fin >> y[i];
+
+    vector<double> sumPow(2 * deg + 1, 0);
+    for (int i = 0; i < n; i++)
+    {
+        double xi = 1;
+        for (int j = 0; j <= 2 * deg; j++)
+        {
+            sumPow[j] += xi;
+            xi *= x[i];
+        }
+    }
+
+    vector<double> sumXY(deg + 1, 0);
+    for (int i = 0; i < n; i++)
+    {
+        double xi = 1;
+        for (int j = 0; j <= deg; j++)
+        {
+            sumXY[j] += xi * y[i];
+            xi *= x[i];
+        }
+    }
+
+    vector<vector<double>> matt(deg + 1, vector<double>(deg + 2, 0));
+    for (int i = 0; i <= deg; i++)
+    {
+        for (int j = 0; j <= deg; j++)
+        {
+            matt[i][j] = sumPow[i + j];
+        }
+        matt[i][deg + 1] = sumXY[i];
+    }
+
+    for (int i = 0; i <= deg; i++)
+    {
+        for (int j = i + 1; j <= deg; j++)
+        {
+            if (abs(matt[j][i]) > abs(matt[i][i]))
+                swap(matt[i], matt[j]);
+        }
+        for (int j = i + 1; j <= deg; j++)
+        {
+            double rt = matt[j][i] / matt[i][i];
+            for (int k = i; k <= deg + 1; k++)
+            {
+                matt[j][k] -= rt * matt[i][k];
+            }
+        }
+    }
+
+    vector<double> a(deg + 1, 0);
+    for (int i = deg; i >= 0; i--)
+    {
+        a[i] = matt[i][deg + 1];
+        for (int j = i + 1; j <= deg; j++)
+        {
+            a[i] -= matt[i][j] * a[j];
+        }
+        a[i] /= matt[i][i];
+    }
+
+    for (int i = 0; i <= deg; i++)
+    {
+        fout << "a" << i << " = " << a[i] << '\n';
+    }
+
+    // Predict
+    double val;
+    fin >> val;
+
+    double ypred = 0;
+    for (int i = 0; i <= deg; i++)
+    {
+        ypred += a[i] * pow(val, i);
+    }
+
+    fout << "y(" << val << ") = " << ypred << '\n';
+
+    fin.close();
+    fout.close();
+
+    return 0;
+}
+```
+
+## Sample Input:
+
+```cpp
+5
+2
+1 2 3 4 5
+2 4 5 4 5
+6
+```
+
+## Sample Output:
+
+```cpp
+a0 = 0.2
+a1 = 2.31429
+a2 = -0.285714
+y(6) = 3.8
+```
+
+## [Back to Top](#about-this-project)
+
+---
